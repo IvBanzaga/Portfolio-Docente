@@ -74,6 +74,7 @@ export function ContactSection() {
   const [isSending, setIsSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedMessage, setCopiedMessage] = useState(false);
 
   const mountedAtRef = useRef<number>(Date.now());
 
@@ -84,6 +85,17 @@ export function ContactSection() {
       setTimeout(() => setCopiedEmail(false), 2000);
     } catch {
       setCopiedEmail(false);
+    }
+  };
+
+  const handleCopyMessage = async () => {
+    const summary = `Para: ${PROFILE.email}\nNombre: ${name.trim()}\nCorreo: ${email.trim()}\nAsunto: ${topic}\n\n${message.trim()}`;
+    try {
+      await navigator.clipboard.writeText(summary);
+      setCopiedMessage(true);
+      setTimeout(() => setCopiedMessage(false), 2200);
+    } catch {
+      setCopiedMessage(false);
     }
   };
 
@@ -140,10 +152,13 @@ export function ContactSection() {
     }
 
     setIsSending(true);
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 22000);
 
     try {
       const customWebhook = import.meta.env.VITE_CONTACT_WEBHOOK_URL?.trim();
-      const endpoint = customWebhook || `https://formsubmit.co/ajax/${PROFILE.email}`;
+      const endpoint =
+        customWebhook || 'https://formsubmit.co/ajax/d68db123b4fb0a8382a0967b4175d136';
 
       const payload = customWebhook
         ? {
@@ -172,6 +187,7 @@ export function ContactSection() {
           Accept: 'application/json',
         },
         body: JSON.stringify(payload),
+        signal: controller.signal,
       });
 
       const data = await response.json().catch(() => null);
@@ -180,16 +196,34 @@ export function ContactSection() {
         !response.ok ||
         (data && (data.success === false || data.success === 'false'))
       ) {
-        throw new Error('No se pudo completar el envío automático.');
+        const serverMsg =
+          data && typeof data.message === 'string' ? data.message : '';
+        if (/activat/i.test(serverMsg)) {
+          throw new Error(
+            `El servicio de formulario requiere activar ${PROFILE.email} desde el correo de confirmación de FormSubmit (revisa Spam). Mientras tanto, puedes enviarlo desde tu gestor de correo.`
+          );
+        }
+        throw new Error(
+          `El servidor de correo externo no aceptó el envío en este momento. Puedes enviarlo directamente desde tu gestor de correo a ${PROFILE.email}.`
+        );
       }
 
       setSubmitted(true);
-    } catch {
+    } catch (err) {
       setSendFallbackAvailable(true);
-      setError(
-        `No se pudo enviar automáticamente en este momento. Puedes reintentar o enviarlo directamente desde tu gestor de correo hacia ${PROFILE.email}.`
-      );
+      if (err instanceof DOMException && err.name === 'AbortError') {
+        setError(
+          `El servicio de envío automático tardó demasiado en responder (timeout). Puedes enviar el mensaje al instante desde tu gestor de correo hacia ${PROFILE.email} o copiarlo abajo.`
+        );
+      } else if (err instanceof Error && err.message) {
+        setError(err.message);
+      } else {
+        setError(
+          `No se pudo enviar automáticamente en este momento. Puedes reintentar o enviarlo directamente desde tu gestor de correo hacia ${PROFILE.email}.`
+        );
+      }
     } finally {
+      window.clearTimeout(timeoutId);
       setIsSending(false);
     }
   };
@@ -506,17 +540,36 @@ export function ContactSection() {
                   {error && (
                     <div
                       role="alert"
-                      className="space-y-2 rounded-xl border border-rose-200 dark:border-rose-900 bg-rose-50 dark:bg-rose-950/60 px-3.5 py-2.5 text-xs font-medium text-rose-800 dark:text-rose-200"
+                      className="space-y-2.5 rounded-xl border border-rose-200 dark:border-rose-900 bg-rose-50 dark:bg-rose-950/60 px-3.5 py-3 text-xs font-medium text-rose-800 dark:text-rose-200"
                     >
                       <p>{error}</p>
                       {sendFallbackAvailable && (
-                        <a
-                          href={mailtoHref}
-                          className="inline-flex items-center gap-1.5 font-semibold text-rose-900 underline dark:text-rose-100"
-                        >
-                          <Mail className="h-3.5 w-3.5" />
-                          <span>Abrir en mi gestor de correo</span>
-                        </a>
+                        <div className="flex flex-wrap items-center gap-3 pt-0.5">
+                          <a
+                            href={mailtoHref}
+                            className="inline-flex items-center gap-1.5 font-semibold text-rose-900 underline dark:text-rose-100"
+                          >
+                            <Mail className="h-3.5 w-3.5" />
+                            <span>Abrir en mi gestor de correo</span>
+                          </a>
+                          <button
+                            type="button"
+                            onClick={handleCopyMessage}
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-rose-300 dark:border-rose-800 bg-white/80 dark:bg-rose-900/40 px-2.5 py-1 font-semibold text-rose-900 dark:text-rose-100 hover:bg-white dark:hover:bg-rose-900/70"
+                          >
+                            {copiedMessage ? (
+                              <>
+                                <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                                <span>Mensaje copiado</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="h-3.5 w-3.5" />
+                                <span>Copiar mensaje</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
                       )}
                     </div>
                   )}
