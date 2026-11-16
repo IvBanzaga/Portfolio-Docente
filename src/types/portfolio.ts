@@ -100,5 +100,6 @@ export interface TeachingPillar {
   description: string;
   appliedIn: string;
   projectId?: string;
+  demoUrl?: string;
   statusNote: string;
 }

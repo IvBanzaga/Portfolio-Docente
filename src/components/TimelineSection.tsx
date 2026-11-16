@@ -39,12 +39,18 @@ const TIMELINE_HOVER_THEMES = [
 
 export function TimelineSection({ onSelectProject }: TimelineSectionProps) {
   const [filter, setFilter] = useState<TimelineFilter>('all');
-  const [hoveredEntryId, setHoveredEntryId] = useState<string | null>(null);
+  const [hoveredEntryId, setHoveredEntryId] = useState<string | null>(
+    TIMELINE_ENTRIES[0]?.id ?? null
+  );
 
   const filteredEntries: TimelineEntry[] =
     filter === 'all'
       ? TIMELINE_ENTRIES
       : TIMELINE_ENTRIES.filter((entry) => entry.kind === filter);
+
+  const activeEntryId = filteredEntries.some((e) => e.id === hoveredEntryId)
+    ? hoveredEntryId
+    : (filteredEntries[0]?.id ?? null);
 
   return (
     <section
@@ -96,7 +102,7 @@ export function TimelineSection({ onSelectProject }: TimelineSectionProps) {
 
         <div
           className="mt-10 relative space-y-6 before:absolute before:left-5 before:top-2 before:bottom-2 before:w-px before:bg-slate-200 dark:before:bg-slate-800 sm:before:left-6"
-          onMouseLeave={() => setHoveredEntryId(null)}
+          onMouseLeave={() => setHoveredEntryId(filteredEntries[0]?.id ?? null)}
         >
           {filteredEntries.map((entry, idx) => {
             const isPending = entry.kind === 'pending-slot';
@@ -104,8 +110,8 @@ export function TimelineSection({ onSelectProject }: TimelineSectionProps) {
               ? PROJECTS.filter((p) => entry.relatedProjectIds?.includes(p.id))
               : [];
             const theme = TIMELINE_HOVER_THEMES[idx % TIMELINE_HOVER_THEMES.length];
-            const isActive = hoveredEntryId === entry.id;
-            const isDimmed = hoveredEntryId !== null && !isActive;
+            const isActive = activeEntryId === entry.id;
+            const isDimmed = activeEntryId !== null && !isActive;
 
             return (
               <div
@@ -115,7 +121,7 @@ export function TimelineSection({ onSelectProject }: TimelineSectionProps) {
                 onFocus={() => setHoveredEntryId(entry.id)}
                 onBlur={(e) => {
                   if (!e.currentTarget.contains(e.relatedTarget)) {
-                    setHoveredEntryId(null);
+                    setHoveredEntryId(filteredEntries[0]?.id ?? null);
                   }
                 }}
               >

@@ -34,8 +34,8 @@ export function Hero({
 }: HeroProps) {
   const [lens, setLens] = useState<LensMode>('docencia');
   const [avatarError, setAvatarError] = useState(false);
-  const [hoveredStat, setHoveredStat] = useState<'projects' | 'scopes' | 'n8n' | 'fullstack' | null>(
-    null
+  const [hoveredStat, setHoveredStat] = useState<'projects' | 'scopes' | 'n8n' | 'fullstack'>(
+    'projects'
   );
 
   const webSpotlight =
@@ -335,7 +335,7 @@ export function Hero({
         {/* Full-Width 4-Column Summary Strip below Hero Split */}
         <div
           className="mt-10 grid grid-cols-2 gap-4 border-t border-slate-300/70 dark:border-slate-800 pt-8 sm:grid-cols-4"
-          onMouseLeave={() => setHoveredStat(null)}
+          onMouseLeave={() => setHoveredStat('projects')}
         >
           <div
             onMouseEnter={() => setHoveredStat('projects')}

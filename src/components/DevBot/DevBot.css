@@ -1,0 +1,348 @@
+/* Compositor-only animations (transform & opacity) for DevBot */
+
+.devbot-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 45;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.devbot-layer--animated {
+  transition:
+    transform 340ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 180ms ease;
+}
+
+.devbot-paused-bg,
+.devbot-paused-bg * {
+  animation-play-state: paused !important;
+}
+
+.devbot-sprite-img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  will-change: transform;
+}
+
+@keyframes devbot-entrance {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.84);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes devbot-idle-float {
+  0%,
+  44%,
+  50%,
+  100% {
+    transform: translate3d(0, 0, 0) scaleY(1);
+  }
+  25% {
+    transform: translate3d(0, -3px, 0) scaleY(1);
+  }
+  47% {
+    /* Natural quick blink */
+    transform: translate3d(0, -1px, 0) scaleY(0.92);
+  }
+  75% {
+    transform: translate3d(0, -2px, 0) rotate(1.5deg);
+  }
+}
+
+@keyframes devbot-reading-still {
+  0%,
+  46%,
+  52%,
+  100% {
+    transform: translate3d(0, 0, 0) scaleY(1);
+  }
+  49% {
+    /* Quiet blink while visitor reads */
+    transform: translate3d(0, 0, 0) scaleY(0.93);
+  }
+}
+
+@keyframes devbot-rest-breathe {
+  0%,
+  42%,
+  48%,
+  100% {
+    transform: translate3d(0, 1px, 0) scaleY(0.98);
+  }
+  45% {
+    transform: translate3d(0, 1px, 0) scaleY(0.91);
+  }
+  70% {
+    transform: translate3d(0, 2px, 0) rotate(-2deg) scaleY(0.96);
+  }
+}
+
+@keyframes devbot-explain-nod {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  35% {
+    transform: translate3d(0, -2px, 0) rotate(2.5deg);
+  }
+  70% {
+    transform: translate3d(0, 0, 0) rotate(-1.5deg);
+  }
+}
+
+@keyframes devbot-think-head {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  40% {
+    transform: translate3d(0, -2px, 0) rotate(-4deg);
+  }
+  75% {
+    transform: translate3d(0, -1px, 0) rotate(2deg);
+  }
+}
+
+@keyframes devbot-walk-hop {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  35% {
+    transform: translate3d(0, -5px, 0) rotate(-3deg);
+  }
+  70% {
+    transform: translate3d(0, -1px, 0) rotate(2deg);
+  }
+}
+
+@keyframes devbot-run-sprint {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(4deg);
+  }
+  25% {
+    transform: translate3d(2px, -6px, 0) rotate(7deg);
+  }
+  50% {
+    transform: translate3d(0, 0, 0) rotate(3deg);
+  }
+  75% {
+    transform: translate3d(-1px, -5px, 0) rotate(6deg);
+  }
+}
+
+@keyframes devbot-jump-arc {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  40% {
+    transform: translate3d(0, -14px, 0) scale(1.06);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0) scale(0.98);
+  }
+}
+
+@keyframes devbot-point-nudge {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(3px, -2px, 0);
+  }
+}
+
+@keyframes devbot-curious-tilt {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -3px, 0) rotate(-5deg);
+  }
+}
+
+@keyframes devbot-surprise-pop {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  30% {
+    transform: translate3d(0, -10px, 0) scale(1.1);
+  }
+  65% {
+    transform: translate3d(0, 1px, 0) scale(0.97);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes devbot-joy-bounce {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+@keyframes devbot-celebrate-hop {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  40% {
+    transform: translate3d(0, -8px, 0) scale(1.06);
+  }
+}
+
+@keyframes devbot-bubble-pop {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.devbot-enter {
+  animation: devbot-entrance 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.devbot-anim-idle {
+  animation: devbot-idle-float 5.6s ease-in-out infinite;
+}
+
+.devbot-anim-reading {
+  animation: devbot-reading-still 6.4s ease-in-out infinite;
+}
+
+.devbot-anim-rest {
+  animation: devbot-rest-breathe 5.2s ease-in-out infinite;
+}
+
+.devbot-anim-explain {
+  animation: devbot-explain-nod 2.8s ease-in-out infinite;
+}
+
+.devbot-anim-think {
+  animation: devbot-think-head 3.2s ease-in-out infinite;
+}
+
+.devbot-anim-walk {
+  animation: devbot-walk-hop 420ms ease-in-out infinite;
+}
+
+.devbot-anim-run {
+  animation: devbot-run-sprint 280ms ease-in-out infinite;
+}
+
+.devbot-anim-jump {
+  animation: devbot-jump-arc 480ms cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.devbot-anim-point {
+  animation: devbot-point-nudge 1.6s ease-in-out infinite;
+}
+
+.devbot-anim-curious {
+  animation: devbot-curious-tilt 2.1s ease-in-out infinite;
+}
+
+.devbot-anim-surprise {
+  animation: devbot-surprise-pop 520ms cubic-bezier(0.16, 1, 0.3, 1) 1;
+}
+
+.devbot-anim-joy {
+  animation: devbot-joy-bounce 950ms ease-in-out infinite;
+}
+
+.devbot-anim-celebrate {
+  animation: devbot-celebrate-hop 650ms ease-in-out infinite;
+}
+
+.devbot-bubble {
+  animation: devbot-bubble-pop 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes devbot-target-pulse-ring {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.85), 0 0 18px rgba(37, 99, 235, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(34, 211, 238, 0.45), 0 0 26px rgba(37, 99, 235, 0.5);
+  }
+}
+
+.devbot-target-pulse {
+  border-radius: 0.75rem;
+  animation: devbot-target-pulse-ring 0.9s ease-in-out 2;
+}
+
+/* Visual highlight on active guided tour section without altering layout geometry */
+.devbot-section-spotlight {
+  outline: 2px solid rgba(6, 182, 212, 0.65);
+  outline-offset: -4px;
+  box-shadow: inset 0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .devbot-layer--animated {
+    transition: none !important;
+  }
+  .devbot-enter,
+  .devbot-anim-idle,
+  .devbot-anim-reading,
+  .devbot-anim-rest,
+  .devbot-anim-explain,
+  .devbot-anim-think,
+  .devbot-anim-walk,
+  .devbot-anim-run,
+  .devbot-anim-jump,
+  .devbot-anim-point,
+  .devbot-anim-curious,
+  .devbot-anim-surprise,
+  .devbot-anim-joy,
+  .devbot-anim-celebrate,
+  .devbot-bubble,
+  .devbot-target-pulse {
+    animation: none !important;
+  }
+}
+
+body.pausar-animaciones .devbot-layer--animated {
+  transition: none !important;
+}
+
+body.pausar-animaciones .devbot-enter,
+body.pausar-animaciones .devbot-anim-idle,
+body.pausar-animaciones .devbot-anim-reading,
+body.pausar-animaciones .devbot-anim-rest,
+body.pausar-animaciones .devbot-anim-explain,
+body.pausar-animaciones .devbot-anim-think,
+body.pausar-animaciones .devbot-anim-walk,
+body.pausar-animaciones .devbot-anim-run,
+body.pausar-animaciones .devbot-anim-jump,
+body.pausar-animaciones .devbot-anim-point,
+body.pausar-animaciones .devbot-anim-curious,
+body.pausar-animaciones .devbot-anim-surprise,
+body.pausar-animaciones .devbot-anim-joy,
+body.pausar-animaciones .devbot-anim-celebrate,
+body.pausar-animaciones .devbot-bubble,
+body.pausar-animaciones .devbot-target-pulse {
+  animation: none !important;
+}

@@ -606,7 +606,7 @@ export const PROJECTS: Project[] = [
     title: 'Imágenes de la Nasa',
     subtitle: 'Explorador de la Imagen Astronómica del Día vía API REST',
     category: 'Proyectos personales y experimentales',
-    domain: 'dual',
+    domain: 'web',
     status: 'Publicado',
     featured: false,
     visualKind: 'nasa-apod',

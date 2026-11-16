@@ -37,8 +37,12 @@ export function ProjectsSection({
   const [selectedStatus, setSelectedStatus] = useState<'Todos' | ProjectStatus>('Todos');
   const [selectedTech, setSelectedTech] = useState<string>('Todas');
   const [searchQuery, setSearchQuery] = useState('');
-  const [hoveredFeaturedId, setHoveredFeaturedId] = useState<string | null>(null);
-  const [hoveredCatalogId, setHoveredCatalogId] = useState<string | null>(null);
+  const [hoveredFeaturedId, setHoveredFeaturedId] = useState<string | null>(
+    () => projects.find((p) => p.featured)?.id ?? null
+  );
+  const [hoveredCatalogId, setHoveredCatalogId] = useState<string | null>(
+    () => projects[0]?.id ?? null
+  );
 
   const ACCENT_SPOTLIGHT: Record<Project['accentColor'], string> = {
     blue: 'border-blue-500 dark:border-blue-400 ring-2 ring-blue-500/30 shadow-xl shadow-blue-500/15 dark:shadow-blue-500/20',
@@ -94,6 +98,14 @@ export function ProjectsSection({
     });
   }, [projects, selectedCategory, selectedDomain, selectedStatus, effectiveTech, searchQuery]);
 
+  const activeFeaturedId = featuredProjects.some((p) => p.id === hoveredFeaturedId)
+    ? hoveredFeaturedId
+    : (featuredProjects[0]?.id ?? null);
+
+  const activeCatalogId = filteredProjects.some((p) => p.id === hoveredCatalogId)
+    ? hoveredCatalogId
+    : (filteredProjects[0]?.id ?? null);
+
   const hasActiveFilters =
     selectedCategory !== 'Todas' ||
     selectedDomain !== 'all' ||
@@ -134,12 +146,12 @@ export function ProjectsSection({
 
         <div
           className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"
-          onMouseLeave={() => setHoveredFeaturedId(null)}
+          onMouseLeave={() => setHoveredFeaturedId(featuredProjects[0]?.id ?? null)}
         >
           {featuredProjects.map((project, index) => {
             const isHeroBento = index === 0 || index === 3;
-            const isActive = hoveredFeaturedId === project.id;
-            const isDimmed = hoveredFeaturedId !== null && !isActive;
+            const isActive = activeFeaturedId === project.id;
+            const isDimmed = activeFeaturedId !== null && !isActive;
 
             return (
               <article
@@ -148,7 +160,7 @@ export function ProjectsSection({
                 onFocus={() => setHoveredFeaturedId(project.id)}
                 onBlur={(e) => {
                   if (!e.currentTarget.contains(e.relatedTarget)) {
-                    setHoveredFeaturedId(null);
+                    setHoveredFeaturedId(featuredProjects[0]?.id ?? null);
                   }
                 }}
                 className={`group flex flex-col overflow-hidden rounded-2xl border bg-white dark:bg-slate-900 transition-all duration-200 ${
@@ -393,11 +405,11 @@ export function ProjectsSection({
           ) : (
             <div
               className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
-              onMouseLeave={() => setHoveredCatalogId(null)}
+              onMouseLeave={() => setHoveredCatalogId(filteredProjects[0]?.id ?? null)}
             >
               {filteredProjects.map((project) => {
-                const isActive = hoveredCatalogId === project.id;
-                const isDimmed = hoveredCatalogId !== null && !isActive;
+                const isActive = activeCatalogId === project.id;
+                const isDimmed = activeCatalogId !== null && !isActive;
 
                 return (
                   <article
@@ -406,7 +418,7 @@ export function ProjectsSection({
                     onFocus={() => setHoveredCatalogId(project.id)}
                     onBlur={(e) => {
                       if (!e.currentTarget.contains(e.relatedTarget)) {
-                        setHoveredCatalogId(null);
+                        setHoveredCatalogId(filteredProjects[0]?.id ?? null);
                       }
                     }}
                     className={`group flex flex-col overflow-hidden rounded-2xl border bg-white dark:bg-slate-900 transition-all duration-200 ${

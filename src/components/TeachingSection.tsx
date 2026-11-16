@@ -11,10 +11,10 @@ interface TeachingSectionProps {
 
 const CATEGORIES: ('Todas' | TeachingPillar['category'])[] = [
   'Todas',
-  'Programaciones',
+  'IA en enseñanza',
   'Recursos digitales',
   'Práctica y evaluación',
-  'IA en enseñanza',
+  'Programaciones',
 ];
 
 const TEACHING_CARD_THEMES = [
@@ -66,17 +66,33 @@ export function TeachingSection({
   onJumpToLab,
 }: TeachingSectionProps) {
   const [selectedPillarCat, setSelectedPillarCat] = useState<'Todas' | TeachingPillar['category']>('Todas');
-  const [hoveredPillarId, setHoveredPillarId] = useState<string | null>(null);
-  const [hoveredEdProjectId, setHoveredEdProjectId] = useState<string | null>(null);
-
-  const edProjects = projects.filter(
-    (p) => p.domain === 'docencia' || p.domain === 'dual'
-  );
+  const edProjects = projects
+    .filter((p) => p.domain === 'docencia' || p.domain === 'dual')
+    .sort((a, b) => {
+      if (a.id === 'htmlab') return -1;
+      if (b.id === 'htmlab') return 1;
+      return 0;
+    });
 
   const visiblePillars =
     selectedPillarCat === 'Todas'
       ? TEACHING_PILLARS
       : TEACHING_PILLARS.filter((p) => p.category === selectedPillarCat);
+
+  const [hoveredPillarId, setHoveredPillarId] = useState<string | null>(
+    TEACHING_PILLARS[0]?.id ?? null
+  );
+  const [hoveredEdProjectId, setHoveredEdProjectId] = useState<string | null>(
+    edProjects[0]?.id ?? null
+  );
+
+  const activeEdProjectId = edProjects.some((p) => p.id === hoveredEdProjectId)
+    ? hoveredEdProjectId
+    : (edProjects[0]?.id ?? null);
+
+  const activePillarId = visiblePillars.some((p) => p.id === hoveredPillarId)
+    ? hoveredPillarId
+    : (visiblePillars[0]?.id ?? null);
 
   return (
     <section
@@ -108,140 +124,17 @@ export function TeachingSection({
           </button>
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-1.5" role="group" aria-label="Filtrar áreas docentes">
-          {CATEGORIES.map((cat, idx) => {
-            const theme = TEACHING_CARD_THEMES[idx % TEACHING_CARD_THEMES.length];
-            const isSelected = selectedPillarCat === cat;
-
-            return (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setSelectedPillarCat(cat)}
-                className={`rounded-xl px-3.5 py-2 text-xs font-semibold whitespace-nowrap transition-colors ${
-                  isSelected
-                    ? cat === 'Todas'
-                      ? 'bg-orange-500 text-white'
-                      : theme.tabActive
-                    : `bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 ${theme.tabHover}`
-                }`}
-              >
-                {cat}
-              </button>
-            );
-          })}
-        </div>
-
-        <div
-          className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2"
-          onMouseLeave={() => setHoveredPillarId(null)}
-        >
-          {visiblePillars.map((pillar, idx) => {
-            const linked = projects.find((p) => p.id === pillar.projectId);
-            const isActive = hoveredPillarId === pillar.id;
-            const isDimmed = hoveredPillarId !== null && !isActive;
-            const theme = TEACHING_CARD_THEMES[idx % TEACHING_CARD_THEMES.length];
-
-            return (
-              <div
-                key={pillar.id}
-                onMouseEnter={() => setHoveredPillarId(pillar.id)}
-                onFocus={() => setHoveredPillarId(pillar.id)}
-                onBlur={(e) => {
-                  if (!e.currentTarget.contains(e.relatedTarget)) {
-                    setHoveredPillarId(null);
-                  }
-                }}
-                className={`group flex flex-col justify-between rounded-2xl border p-5 transition-all duration-200 ${
-                  isActive
-                    ? theme.cardActive
-                    : isDimmed
-                      ? 'border-slate-200/80 dark:border-slate-800/70 bg-white/85 dark:bg-slate-950 opacity-50 saturate-[0.65] scale-[0.99]'
-                      : 'border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 opacity-95'
-                }`}
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
-                    <span
-                      className={`font-semibold transition-colors ${
-                        isActive ? theme.accentText : 'text-orange-600 dark:text-orange-400'
-                      }`}
-                    >
-                      {pillar.category}
-                    </span>
-                    {pillar.category === 'Programaciones' && (
-                      <FileSpreadsheet className={`h-4 w-4 transition-colors ${isActive ? theme.accentText : 'text-slate-400'}`} />
-                    )}
-                    {pillar.category === 'Recursos digitales' && (
-                      <BookOpen className={`h-4 w-4 transition-colors ${isActive ? theme.accentText : 'text-slate-400'}`} />
-                    )}
-                    {pillar.category === 'Práctica y evaluación' && (
-                      <CheckSquare className={`h-4 w-4 transition-colors ${isActive ? theme.accentText : 'text-slate-400'}`} />
-                    )}
-                    {pillar.category === 'IA en enseñanza' && (
-                      <Bot className={`h-4 w-4 transition-colors ${isActive ? theme.accentText : 'text-slate-400'}`} />
-                    )}
-                  </div>
-
-                  <h3
-                    className={`mt-2 font-display text-lg font-bold transition-colors ${
-                      isActive ? theme.titleActive : 'text-slate-950 dark:text-white'
-                    }`}
-                  >
-                    {pillar.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                    {pillar.description}
-                  </p>
-                </div>
-
-                <div className="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 space-y-2.5 text-xs">
-                  <p className="text-slate-600 dark:text-slate-400">{pillar.statusNote}</p>
-                  {linked && (
-                    <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                      <button
-                        type="button"
-                        onClick={() => onSelectProject(linked)}
-                        className={`font-semibold whitespace-nowrap transition-colors ${
-                          isActive
-                            ? theme.accentText
-                            : 'text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400'
-                        }`}
-                      >
-                        Ver {linked.title} →
-                      </button>
-                      {linked.demoUrl && (
-                        <a
-                          href={linked.demoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-semibold text-white whitespace-nowrap transition-colors ${
-                            isActive ? theme.actionBtn : 'bg-orange-500 hover:bg-orange-600'
-                          }`}
-                        >
-                          <span>Abrir aplicación</span>
-                          <ExternalLink className="h-3.5 w-3.5" />
-                        </a>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="mt-10">
+        <div className="mt-8">
           <h3 className="font-display text-xl font-bold text-slate-950 dark:text-white">
             Plataformas y herramientas desarrolladas para formación
           </h3>
           <div
-            className="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2"
-            onMouseLeave={() => setHoveredEdProjectId(null)}
+            className="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"
+            onMouseLeave={() => setHoveredEdProjectId(edProjects[0]?.id ?? null)}
           >
             {edProjects.map((project, idx) => {
-              const isActive = hoveredEdProjectId === project.id;
-              const isDimmed = hoveredEdProjectId !== null && !isActive;
+              const isActive = activeEdProjectId === project.id;
+              const isDimmed = activeEdProjectId !== null && !isActive;
               const theme = TEACHING_CARD_THEMES[(idx + 1) % TEACHING_CARD_THEMES.length];
 
               return (
@@ -251,7 +144,7 @@ export function TeachingSection({
                   onFocus={() => setHoveredEdProjectId(project.id)}
                   onBlur={(e) => {
                     if (!e.currentTarget.contains(e.relatedTarget)) {
-                      setHoveredEdProjectId(null);
+                      setHoveredEdProjectId(edProjects[0]?.id ?? null);
                     }
                   }}
                   className={`group flex flex-col justify-between rounded-2xl border p-5 sm:p-6 transition-all duration-200 ${
@@ -321,6 +214,130 @@ export function TeachingSection({
               );
             })}
           </div>
+        </div>
+
+        <div className="mt-12 flex flex-wrap gap-1.5" role="group" aria-label="Filtrar áreas docentes">
+          {CATEGORIES.map((cat, idx) => {
+            const theme = TEACHING_CARD_THEMES[idx % TEACHING_CARD_THEMES.length];
+            const isSelected = selectedPillarCat === cat;
+
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setSelectedPillarCat(cat)}
+                className={`rounded-xl px-3.5 py-2 text-xs font-semibold whitespace-nowrap transition-colors ${
+                  isSelected
+                    ? cat === 'Todas'
+                      ? 'bg-orange-500 text-white'
+                      : theme.tabActive
+                    : `bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 ${theme.tabHover}`
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
+
+        <div
+          className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2"
+          onMouseLeave={() => setHoveredPillarId(visiblePillars[0]?.id ?? null)}
+        >
+          {visiblePillars.map((pillar, idx) => {
+            const linked = projects.find((p) => p.id === pillar.projectId);
+            const appUrl = pillar.demoUrl || linked?.demoUrl;
+            const isActive = activePillarId === pillar.id;
+            const isDimmed = activePillarId !== null && !isActive;
+            const theme = TEACHING_CARD_THEMES[idx % TEACHING_CARD_THEMES.length];
+
+            return (
+              <div
+                key={pillar.id}
+                onMouseEnter={() => setHoveredPillarId(pillar.id)}
+                onFocus={() => setHoveredPillarId(pillar.id)}
+                onBlur={(e) => {
+                  if (!e.currentTarget.contains(e.relatedTarget)) {
+                    setHoveredPillarId(visiblePillars[0]?.id ?? null);
+                  }
+                }}
+                className={`group flex flex-col justify-between rounded-2xl border p-5 transition-all duration-200 ${
+                  isActive
+                    ? theme.cardActive
+                    : isDimmed
+                      ? 'border-slate-200/80 dark:border-slate-800/70 bg-white/85 dark:bg-slate-950 opacity-50 saturate-[0.65] scale-[0.99]'
+                      : 'border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 opacity-95'
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+                    <span
+                      className={`font-semibold transition-colors ${
+                        isActive ? theme.accentText : 'text-orange-600 dark:text-orange-400'
+                      }`}
+                    >
+                      {pillar.category}
+                    </span>
+                    {pillar.category === 'Programaciones' && (
+                      <FileSpreadsheet className={`h-4 w-4 transition-colors ${isActive ? theme.accentText : 'text-slate-400'}`} />
+                    )}
+                    {pillar.category === 'Recursos digitales' && (
+                      <BookOpen className={`h-4 w-4 transition-colors ${isActive ? theme.accentText : 'text-slate-400'}`} />
+                    )}
+                    {pillar.category === 'Práctica y evaluación' && (
+                      <CheckSquare className={`h-4 w-4 transition-colors ${isActive ? theme.accentText : 'text-slate-400'}`} />
+                    )}
+                    {pillar.category === 'IA en enseñanza' && (
+                      <Bot className={`h-4 w-4 transition-colors ${isActive ? theme.accentText : 'text-slate-400'}`} />
+                    )}
+                  </div>
+
+                  <h3
+                    className={`mt-2 font-display text-lg font-bold transition-colors ${
+                      isActive ? theme.titleActive : 'text-slate-950 dark:text-white'
+                    }`}
+                  >
+                    {pillar.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                    {pillar.description}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 space-y-2.5 text-xs">
+                  <p className="text-slate-600 dark:text-slate-400">{pillar.statusNote}</p>
+                  {linked && (
+                    <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => onSelectProject(linked)}
+                        className={`font-semibold whitespace-nowrap transition-colors ${
+                          isActive
+                            ? theme.accentText
+                            : 'text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400'
+                        }`}
+                      >
+                        Ver {linked.title} →
+                      </button>
+                      {appUrl && (
+                        <a
+                          href={appUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-semibold text-white whitespace-nowrap transition-colors ${
+                            isActive ? theme.actionBtn : 'bg-orange-500 hover:bg-orange-600'
+                          }`}
+                        >
+                          <span>Abrir aplicación</span>
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

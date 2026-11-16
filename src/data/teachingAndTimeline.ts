@@ -49,15 +49,14 @@ export const BRIDGE_CONCEPTS: BridgeConcept[] = [
 
 export const TEACHING_PILLARS: TeachingPillar[] = [
   {
-    id: 'pillar-programaciones',
-    title: 'Programaciones didácticas y organización curricular',
-    category: 'Programaciones',
+    id: 'pillar-ia',
+    title: 'Inteligencia artificial aplicada a la enseñanza',
+    category: 'IA en enseñanza',
     description:
-      'Estructuración de acciones formativas, módulos, objetivos de aprendizaje y secuenciación de competencias digitales.',
-    appliedIn: 'Catálogo de Especialidades Formativas (SEPE)',
-    projectId: 'catalogo-sepe',
-    statusNote:
-      'Espacio preparado para enlazar programaciones didácticas y fichas formativas en PDF verificadas.',
+      'Integración de asistentes tutores con IA junto a constructores visuales para ofrecer apoyo personalizado mientras el alumnado programa.',
+    appliedIn: 'Constructor de Plantillas HTML5',
+    projectId: 'htmlab',
+    statusNote: 'Prototipo educativo publicado; alcance detallado del tutor en documentación continua.',
   },
   {
     id: 'pillar-recursos',
@@ -67,6 +66,7 @@ export const TEACHING_PILLARS: TeachingPillar[] = [
       'Creación de tutoriales interactivos en navegador que permiten inspeccionar la anatomía de formularios y plantillas HTML5/CSS3.',
     appliedIn: 'Constructor de Formularios y Plantillas',
     projectId: 'aura-formularios',
+    demoUrl: 'https://aura.creamiproyecto.com/template.html',
     statusNote: 'Publicado y accesible en línea con zona de alumnos.',
   },
   {
@@ -77,17 +77,19 @@ export const TEACHING_PILLARS: TeachingPillar[] = [
       'Retos guiados de comprobación de etiquetas, campos obligatorios y validación básica orientados a evaluación formativa.',
     appliedIn: 'Constructor de Formularios y Plantillas · Constructor de Plantillas HTML5',
     projectId: 'aura-formularios',
+    demoUrl: 'https://aura.creamiproyecto.com/template.html',
     statusNote: 'Integrado en entornos prácticos con comprobación inmediata.',
   },
   {
-    id: 'pillar-ia',
-    title: 'Inteligencia artificial aplicada a la enseñanza',
-    category: 'IA en enseñanza',
+    id: 'pillar-programaciones',
+    title: 'Programaciones didácticas y organización curricular',
+    category: 'Programaciones',
     description:
-      'Integración de asistentes tutores con IA junto a constructores visuales para ofrecer apoyo personalizado mientras el alumnado programa.',
-    appliedIn: 'Constructor de Plantillas HTML5',
-    projectId: 'htmlab',
-    statusNote: 'Prototipo educativo publicado; alcance detallado del tutor en documentación continua.',
+      'Estructuración de acciones formativas, módulos, objetivos de aprendizaje y secuenciación de competencias digitales.',
+    appliedIn: 'Catálogo de Especialidades Formativas (SEPE)',
+    projectId: 'catalogo-sepe',
+    statusNote:
+      'Espacio preparado para enlazar programaciones didácticas y fichas formativas en PDF verificadas.',
   },
 ];
 

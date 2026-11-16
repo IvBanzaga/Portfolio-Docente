@@ -15,6 +15,7 @@ import {
 import { AboutBridge } from './components/AboutBridge';
 import { CommandPalette } from './components/CommandPalette';
 import { ContactSection } from './components/ContactSection';
+import { DevBot } from './components/DevBot/DevBot';
 import { Footer } from './components/Footer';
 import { Hero } from './components/Hero';
 import { InteractiveLab } from './components/InteractiveLab';
@@ -217,6 +218,16 @@ export default function App() {
           onSelectProject={setSelectedProject}
           onNavigate={navigateToSection}
         />
+
+        {!isNotFound && (
+          <DevBot
+            onNavigate={navigateToSection}
+            hasOpenModal={Boolean(selectedProject) || commandOpen}
+            selectedProject={selectedProject}
+            onSelectProject={setSelectedProject}
+            pauseAnimations={a11yPrefs.pauseAnimations}
+          />
+        )}
 
         {showScrollTop && (
           <button

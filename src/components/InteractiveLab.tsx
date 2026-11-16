@@ -146,6 +146,7 @@ export function InteractiveLab() {
   const [n8nScenario, setN8nScenario] = useState<N8nScenario>('form-to-crm');
   const [executedSteps, setExecutedSteps] = useState<number>(4);
   const [showN8nResult, setShowN8nResult] = useState(true);
+  const [hoveredIdeaId, setHoveredIdeaId] = useState<string>(RESEARCH_LAB_IDEAS[0]?.id ?? '');
 
   const activeWorkflow = N8N_SCENARIOS[n8nScenario];
 
@@ -1063,28 +1064,49 @@ export function BienvenidaEmail({
             <span>Líneas en investigación y prototipos (diferenciados de proyectos publicados)</span>
           </div>
 
-          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-            {RESEARCH_LAB_IDEAS.map((idea) => (
-              <div
-                key={idea.id}
-                className="flex flex-col justify-between rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/70 p-5"
-              >
-                <div>
-                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-                    <span className="font-semibold text-indigo-700 dark:text-indigo-400">
-                      {idea.stage}
-                    </span>
-                    <span>{idea.connection}</span>
+          <div
+            className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3"
+            onMouseLeave={() => setHoveredIdeaId(RESEARCH_LAB_IDEAS[0]?.id ?? '')}
+          >
+            {RESEARCH_LAB_IDEAS.map((idea, idx) => {
+              const isActive = hoveredIdeaId === idea.id;
+              const isDimmed = hoveredIdeaId !== '' && !isActive;
+              const ideaTheme =
+                idx === 0
+                  ? 'border-teal-500 dark:border-teal-400 bg-teal-50/90 dark:bg-teal-950/45 ring-2 ring-teal-500/25 shadow-lg shadow-teal-500/15'
+                  : idx === 1
+                    ? 'border-indigo-500 dark:border-indigo-400 bg-indigo-50/90 dark:bg-indigo-950/45 ring-2 ring-indigo-500/25 shadow-lg shadow-indigo-500/15'
+                    : 'border-orange-500 dark:border-orange-400 bg-orange-50/90 dark:bg-orange-950/45 ring-2 ring-orange-500/25 shadow-lg shadow-orange-500/15';
+
+              return (
+                <div
+                  key={idea.id}
+                  onMouseEnter={() => setHoveredIdeaId(idea.id)}
+                  className={`flex flex-col justify-between rounded-2xl border p-5 transition-all duration-200 cursor-default ${
+                    isActive
+                      ? `-translate-y-1 ${ideaTheme}`
+                      : isDimmed
+                        ? 'border-dashed border-slate-300/70 dark:border-slate-700/70 bg-white/70 dark:bg-slate-900/55 opacity-60 saturate-[0.75]'
+                        : 'border-dashed border-slate-300 dark:border-slate-700 bg-white/85 dark:bg-slate-900/75'
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                      <span className="font-semibold text-indigo-700 dark:text-indigo-400">
+                        {idea.stage}
+                      </span>
+                      <span>{idea.connection}</span>
+                    </div>
+                    <h3 className="mt-2 font-display text-base font-bold text-slate-950 dark:text-white">
+                      {idea.title}
+                    </h3>
+                    <p className="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                      {idea.summary}
+                    </p>
                   </div>
-                  <h3 className="mt-2 font-display text-base font-bold text-slate-950 dark:text-white">
-                    {idea.title}
-                  </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
-                    {idea.summary}
-                  </p>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
