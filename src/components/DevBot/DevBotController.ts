@@ -2,14 +2,12 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { Project } from '../../types/portfolio';
 import { SolvedPlacement, solveDevBotPlacement } from './DevBotCollision';
 import {
-  DEVBOT_SECRETS,
   getSectionGuide,
   getSectionMessageVariant,
   INITIAL_GREETING_MESSAGE,
   resolveCardInfo,
   RETURN_GREETING_MESSAGES,
   SECTION_GUIDES,
-  SecretToken,
 } from './DevBotMessages';
 import {
   DevBotPoseId,
@@ -41,7 +39,6 @@ const STORAGE_HIDDEN_KEY = 'devbot-hidden-v2';
 const STORAGE_HINTS_KEY = 'devbot-hints-v2';
 const STORAGE_ANIM_KEY = 'devbot-anim-v2';
 const STORAGE_PAUSED_KEY = 'devbot-paused-v1';
-const STORAGE_SECRETS_KEY = 'devbot-secrets-v1';
 
 const DESKTOP_BREAKPOINT = 1024;
 const BOT_SIZE_MOBILE = 48;
@@ -80,20 +77,6 @@ function readStoredFlag(key: string, fallback: boolean): boolean {
   return fallback;
 }
 
-function readStoredSecrets(): string[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_SECRETS_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) {
-      return parsed.filter((id): id is string => typeof id === 'string');
-    }
-  } catch {
-    // Ignore storage errors
-  }
-  return [];
-}
-
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
@@ -121,11 +104,10 @@ export function useDevBotController({
   const [isTabHidden, setIsTabHidden] = useState<boolean>(() =>
     typeof document !== 'undefined' ? document.visibilityState === 'hidden' : false
   );
-  const [foundSecretIds, setFoundSecretIds] = useState<string[]>(() => readStoredSecrets());
 
   const [activeSectionId, setActiveSectionId] = useState<string>('inicio');
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const [menuTab, setMenuTab] = useState<'guide' | 'poses' | 'secrets'>('guide');
+  const [menuTab, setMenuTab] = useState<'guide' | 'poses'>('guide');
   const [previewPoseId, setPreviewPoseId] = useState<DevBotPoseId | null>(null);
   const [lastExploredProject, setLastExploredProject] = useState<Project | null>(null);
 
@@ -312,14 +294,6 @@ export function useDevBotController({
       // Ignore storage errors
     }
   }, [interactionsPaused]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_SECRETS_KEY, JSON.stringify(foundSecretIds));
-    } catch {
-      // Ignore storage errors
-    }
-  }, [foundSecretIds]);
 
   const scheduleReadingSettle = useCallback(
     (delayMs = 3400) => {
@@ -920,7 +894,7 @@ export function useDevBotController({
       if (stateRef.current === 'HIDDEN') return;
       const target = e.target;
       if (!(target instanceof Element)) return;
-      if (target.closest('.devbot-layer') || target.closest('.devbot-secrets-layer')) {
+      if (target.closest('.devbot-layer')) {
         recordVisitorActivity();
         return;
       }
@@ -1352,62 +1326,6 @@ export function useDevBotController({
     [computeTargetCoordinates, navigateAndGuide, showTimedBubble, transitionTo]
   );
 
-  // Secret token discovery reaction
-  const collectSecret = useCallback(
-    (token: SecretToken) => {
-      setFoundSecretIds((prev) => {
-        if (prev.includes(token.id)) return prev;
-        const updated = [...prev, token.id];
-        const allFound = updated.length >= DEVBOT_SECRETS.length;
-
-        greetingDoneRef.current = true;
-        clearTimer(greetingTimerRef);
-        clearTimer(walkTimerRef);
-        clearTimer(secondaryStateTimerRef);
-        clearTimer(restTimerRef);
-
-        if (stateRef.current !== 'HIDDEN') {
-          applyCoordsStable(computeSectionCoordinates(token.sectionId, false));
-
-          if (!animDisabledRef.current) {
-            setState('JUMPING');
-            walkTimerRef.current = window.setTimeout(() => {
-              if (stateRef.current === 'HIDDEN') return;
-              setState(allFound ? 'CELEBRATING' : 'SURPRISED');
-              secondaryStateTimerRef.current = window.setTimeout(() => {
-                if (stateRef.current === 'HIDDEN') return;
-                setState('JOYFUL');
-                scheduleRestCheck();
-              }, 1400);
-            }, 460);
-          } else {
-            setState(allFound ? 'CELEBRATING' : 'SURPRISED');
-          }
-        }
-
-        showTimedBubble(
-          {
-            key: `secret-${token.id}`,
-            kicker: `Secreto ${updated.length}/${DEVBOT_SECRETS.length} · ${token.title}`,
-            text: allFound
-              ? `¡Has descubierto los ${DEVBOT_SECRETS.length} secretos del portfolio!`
-              : token.reaction,
-            badge: `${updated.length}/${DEVBOT_SECRETS.length}`,
-          },
-          6000,
-          true
-        );
-
-        return updated;
-      });
-    },
-    [applyCoordsStable, computeSectionCoordinates, scheduleRestCheck, showTimedBubble]
-  );
-
-  const resetSecrets = useCallback(() => {
-    setFoundSecretIds([]);
-  }, []);
-
   const toggleHints = useCallback(() => {
     setHintsEnabled((prev) => {
       const next = !prev;
@@ -1597,9 +1515,6 @@ export function useDevBotController({
     prevTourStep,
     goToTourStep,
     stopTour,
-    foundSecretIds,
-    collectSecret,
-    resetSecrets,
     dismissBubble,
     navigateAndGuide,
     pointAtInteraction,

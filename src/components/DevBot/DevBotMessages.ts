@@ -21,15 +21,6 @@ export interface SectionGuide {
   interactions: SectionInteraction[];
 }
 
-export interface SecretToken {
-  id: string;
-  sectionId: string;
-  title: string;
-  clue: string;
-  reaction: string;
-  accent: 'cyan' | 'orange' | 'indigo' | 'teal' | 'amber';
-}
-
 export const INITIAL_GREETING_MESSAGE =
   '¡Hola! Soy DevBot. Te acompañaré a descubrir este portfolio.';
 
@@ -220,49 +211,6 @@ export const SECTION_GUIDES: SectionGuide[] = [
         selector: '#contacto button',
       },
     ],
-  },
-];
-
-export const DEVBOT_SECRETS: SecretToken[] = [
-  {
-    id: 'chip-sintesis',
-    sectionId: 'inicio',
-    title: 'Núcleo Dual',
-    clue: 'Busca un micro-chip cian en la parte superior derecha de la Presentación.',
-    reaction: '¡Sorpresa! Has encontrado el Núcleo Dual que une desarrollo y docencia.',
-    accent: 'cyan',
-  },
-  {
-    id: 'chip-html5',
-    sectionId: 'docencia',
-    title: 'Etiqueta Semántica',
-    clue: 'Hay una insignia naranja escondida en el área de Docencia y EdTech.',
-    reaction: '¡Genial! Has descubierto la Etiqueta Semántica del aula digital.',
-    accent: 'orange',
-  },
-  {
-    id: 'chip-n8n',
-    sectionId: 'laboratorio',
-    title: 'Nodo Webhook',
-    clue: 'Explora la esquina del Laboratorio en vivo para localizar un nodo.',
-    reaction: '¡Bip-bop! Nodo Webhook capturado en el Laboratorio.',
-    accent: 'teal',
-  },
-  {
-    id: 'chip-stack',
-    sectionId: 'competencias',
-    title: 'Módulo Full-Stack',
-    clue: 'Revisa los márgenes de la sección de Tecnologías.',
-    reaction: '¡Increíble ojo! Módulo Full-Stack desbloqueado.',
-    accent: 'indigo',
-  },
-  {
-    id: 'chip-estrella',
-    sectionId: 'trayectoria',
-    title: 'Hito Estelar',
-    clue: 'Un último destello espera junto a la sección de Trayectoria.',
-    reaction: '¡Espectacular! Has encontrado el Hito Estelar de la trayectoria.',
-    accent: 'amber',
   },
 ];
 

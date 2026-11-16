@@ -1,11 +1,9 @@
 import {
   Bell,
   BellOff,
-  CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Compass,
-  Cpu,
   Download,
   ExternalLink,
   Eye,
@@ -17,7 +15,6 @@ import {
   Mail,
   Pause,
   Play,
-  RotateCcw,
   SkipForward,
   Sparkles,
   Square,
@@ -28,8 +25,7 @@ import devbotIdle from '../../assets/devbot/devbot-idle.png';
 import { Project } from '../../types/portfolio';
 import './DevBot.css';
 import { useDevBotController } from './DevBotController';
-import { DEVBOT_SECRETS, SECTION_GUIDES } from './DevBotMessages';
-import { DevBotSecrets } from './DevBotSecrets';
+import { SECTION_GUIDES } from './DevBotMessages';
 import { DEVBOT_POSES, DevBotState, STATE_LABELS } from './DevBotSprites';
 
 interface DevBotProps {
@@ -121,9 +117,6 @@ export function DevBot({
     prevTourStep,
     goToTourStep,
     stopTour,
-    foundSecretIds,
-    collectSecret,
-    resetSecrets,
     dismissBubble,
     navigateAndGuide,
     pointAtInteraction,
@@ -191,16 +184,7 @@ export function DevBot({
   const bubbleProject = bubble?.project;
 
   return (
-    <>
-      {/* Optional Collectible Secrets Layer across Sections */}
-      <DevBotSecrets
-        foundSecretIds={foundSecretIds}
-        animationsDisabled={effectiveAnimationsDisabled || isTabHidden}
-        onCollect={collectSecret}
-      />
-
-      {/* Interactive Floating Viewport Layer (transform driven directly via rAF DOM ref for 0-re-render glides) */}
-      <div
+    <div
         ref={botLayerRef}
         style={{
           opacity: isYieldHidden ? 0 : 1,
@@ -398,7 +382,7 @@ export function DevBot({
                     DevBot · Panel de control
                   </p>
                   <p className="text-[0.6875rem] text-slate-500 dark:text-slate-400">
-                    {currentGuide.label} · {interactionsPaused ? 'En pausa' : isReading ? 'En calma' : STATE_LABELS[state]} · Secretos {foundSecretIds.length}/{DEVBOT_SECRETS.length}
+                    {currentGuide.label} · {interactionsPaused ? 'En pausa' : isReading ? 'En calma' : STATE_LABELS[state]}
                   </p>
                 </div>
                 <div className="flex items-center gap-1">
@@ -423,8 +407,8 @@ export function DevBot({
                 </div>
               </div>
 
-              {/* 3 Navigation Tabs */}
-              <div className="mt-3 grid grid-cols-3 gap-1 rounded-xl bg-slate-100 dark:bg-slate-800 p-1">
+              {/* 2 Navigation Tabs */}
+              <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl bg-slate-100 dark:bg-slate-800 p-1">
                 <button
                   type="button"
                   onClick={() => {
@@ -451,20 +435,6 @@ export function DevBot({
                 >
                   <Eye className="h-3.5 w-3.5 text-cyan-600 dark:text-cyan-400" />
                   <span>Poses</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMenuTab('secrets')}
-                  className={`inline-flex items-center justify-center gap-1 rounded-lg py-1.5 text-xs font-semibold transition-colors ${
-                    menuTab === 'secrets'
-                      ? 'bg-white dark:bg-slate-950 text-slate-950 dark:text-white shadow-xs'
-                      : 'text-slate-600 dark:text-slate-300'
-                  }`}
-                >
-                  <Cpu className="h-3.5 w-3.5 text-orange-500" />
-                  <span>
-                    {foundSecretIds.length}/{DEVBOT_SECRETS.length}
-                  </span>
                 </button>
               </div>
 
@@ -752,60 +722,6 @@ export function DevBot({
                 </div>
               )}
 
-              {menuTab === 'secrets' && (
-                <div className="mt-3 space-y-2.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-slate-700 dark:text-slate-200">
-                      Coleccionables: {foundSecretIds.length} de {DEVBOT_SECRETS.length}
-                    </span>
-                    {foundSecretIds.length > 0 && (
-                      <button
-                        type="button"
-                        onClick={resetSecrets}
-                        className="inline-flex items-center gap-1 text-[0.6875rem] font-semibold text-slate-500 hover:text-rose-600 dark:text-slate-400"
-                      >
-                        <RotateCcw className="h-3 w-3" />
-                        <span>Reiniciar</span>
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
-                    {DEVBOT_SECRETS.map((token) => {
-                      const found = foundSecretIds.includes(token.id);
-                      return (
-                        <button
-                          key={token.id}
-                          type="button"
-                          onClick={() => {
-                            setMenuOpen(false);
-                            navigateAndGuide(token.sectionId);
-                          }}
-                          className={`flex w-full items-start gap-2.5 rounded-xl border p-2.5 text-left transition-colors ${
-                            found
-                              ? 'border-emerald-300 dark:border-emerald-800 bg-emerald-50/70 dark:bg-emerald-950/30'
-                              : 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 hover:border-cyan-400'
-                          }`}
-                        >
-                          {found ? (
-                            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                          ) : (
-                            <Cpu className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
-                          )}
-                          <div className="min-w-0">
-                            <p className="text-xs font-bold text-slate-900 dark:text-white">
-                              {token.title}
-                            </p>
-                            <p className="mt-0.5 text-[0.6875rem] text-slate-600 dark:text-slate-300">
-                              {found ? 'Descubierto. Pulsa para ir a su sección.' : token.clue}
-                            </p>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
             </div>
           )}
 
@@ -844,6 +760,5 @@ export function DevBot({
           </button>
         </div>
       </div>
-    </>
   );
 }
