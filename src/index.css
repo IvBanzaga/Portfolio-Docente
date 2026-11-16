@@ -62,17 +62,18 @@
 /* Marquee animation for section ribbon */
 @keyframes marquee-scroll {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee-scroll 36s linear infinite;
+  will-change: transform;
+  animation: marquee-scroll 34s linear infinite;
 }
 
 .animate-marquee:hover {
@@ -247,14 +248,17 @@ body.pausar-animaciones *::after {
   html {
     scroll-behavior: auto !important;
   }
-  .animate-marquee {
-    animation: none;
-  }
-  *,
-  *::before,
-  *::after {
+  *:not(.animate-marquee),
+  *:not(.animate-marquee)::before,
+  *:not(.animate-marquee)::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+  }
+  .animate-marquee {
+    animation: marquee-scroll 56s linear infinite;
+  }
+  body.pausar-animaciones .animate-marquee {
+    animation: none !important;
   }
 }
 
