@@ -157,7 +157,9 @@ export function ContactSection() {
 
     try {
       const customWebhook = import.meta.env.VITE_CONTACT_WEBHOOK_URL?.trim();
-      const web3FormsKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim();
+      const web3FormsKey =
+        import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim() ||
+        '181a04f6-6320-46f6-84d7-0abca3323479';
 
       let response: Response;
 
@@ -181,10 +183,12 @@ export function ContactSection() {
       } else if (web3FormsKey) {
         const formData = new FormData();
         formData.append('access_key', web3FormsKey);
+        formData.append('from_name', 'Portfolio Iván Bazaga');
         formData.append('name', name.trim());
         formData.append('email', email.trim());
+        formData.append('replyto', email.trim());
         formData.append('subject', `[Portfolio] ${topic}: ${name.trim()}`);
-        formData.append('topic', topic);
+        formData.append('Ámbito', topic);
         formData.append('message', message.trim());
 
         response = await fetch('https://api.web3forms.com/submit', {
@@ -226,11 +230,13 @@ export function ContactSection() {
           data && typeof data.message === 'string' ? data.message : '';
         if (/activat/i.test(serverMsg)) {
           throw new Error(
-            `El servicio de formulario requiere activar ${PROFILE.email} desde el correo de confirmación de FormSubmit (revisa Spam). Mientras tanto, puedes enviarlo desde tu gestor de correo.`
+            `El servicio de formulario requiere activar ${PROFILE.email} desde el correo de confirmación (revisa Spam). Mientras tanto, puedes enviarlo desde tu gestor de correo.`
           );
         }
         throw new Error(
-          `El servidor de correo externo no aceptó el envío en este momento. Puedes enviarlo directamente desde tu gestor de correo a ${PROFILE.email}.`
+          serverMsg
+            ? `No se pudo completar el envío automático (${serverMsg}). Puedes enviarlo directamente desde tu gestor de correo a ${PROFILE.email}.`
+            : `El servidor de correo externo no aceptó el envío en este momento. Puedes enviarlo directamente desde tu gestor de correo a ${PROFILE.email}.`
         );
       }
 
