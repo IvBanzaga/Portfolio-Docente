@@ -418,7 +418,7 @@ export function ContactSection() {
                     antes posible.
                   </p>
 
-                  <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                  <div className="flex flex-wrap items-center justify-center pt-2">
                     <button
                       type="button"
                       onClick={handleReset}
@@ -426,13 +426,6 @@ export function ContactSection() {
                     >
                       Enviar otro mensaje
                     </button>
-                    <a
-                      href={mailtoHref}
-                      className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
-                    >
-                      <Mail className="h-4 w-4" />
-                      <span>Abrir copia en mi correo</span>
-                    </a>
                   </div>
                 </div>
               ) : (
