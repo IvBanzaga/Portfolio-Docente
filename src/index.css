@@ -1,0 +1,265 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: #F8FAFC;
+    color: #0F172A;
+  }
+
+  html.dark {
+    background-color: #020617;
+    color: #F8FAFC;
+    color-scheme: dark;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 3px solid #2563EB !important;
+    outline-offset: 2px !important;
+  }
+
+  html.dark :focus-visible {
+    outline-color: #60A5FA !important;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Luminous architectural grid background */
+.bg-luminous-grid {
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(37, 99, 235, 0.08), transparent 38%),
+    radial-gradient(circle at 86% 14%, rgba(249, 115, 22, 0.09), transparent 36%),
+    radial-gradient(circle at 75% 78%, rgba(13, 148, 136, 0.07), transparent 40%),
+    linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+}
+
+.dark .bg-luminous-grid {
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(59, 130, 246, 0.16), transparent 40%),
+    radial-gradient(circle at 86% 14%, rgba(249, 115, 22, 0.13), transparent 38%),
+    radial-gradient(circle at 75% 78%, rgba(20, 184, 166, 0.11), transparent 42%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+}
+
+/* Marquee animation for section ribbon */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 36s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* =========================================================
+   Accesibilidad: Modo de alto contraste (.alto-contraste)
+   Fondo negro puro (#000), texto blanco (#FFF) y amarillo (#FFE600)
+   ========================================================= */
+body.alto-contraste,
+body.alto-contraste header,
+body.alto-contraste nav,
+body.alto-contraste main,
+body.alto-contraste section,
+body.alto-contraste footer,
+body.alto-contraste article,
+body.alto-contraste div,
+body.alto-contraste aside,
+body.alto-contraste [role="dialog"] {
+  background-color: #000000 !important;
+  background-image: none !important;
+  color: #FFFFFF !important;
+}
+
+body.alto-contraste .bg-luminous-grid {
+  background-image: none !important;
+}
+
+body.alto-contraste h1,
+body.alto-contraste h2,
+body.alto-contraste h3,
+body.alto-contraste h4,
+body.alto-contraste strong,
+body.alto-contraste label,
+body.alto-contraste th {
+  color: #FFE600 !important;
+  -webkit-text-fill-color: #FFE600 !important;
+}
+
+body.alto-contraste h1 span {
+  color: #FFE600 !important;
+  -webkit-text-fill-color: #FFE600 !important;
+}
+
+body.alto-contraste p,
+body.alto-contraste span,
+body.alto-contraste li,
+body.alto-contraste td,
+body.alto-contraste code,
+body.alto-contraste pre {
+  color: #FFFFFF !important;
+}
+
+body.alto-contraste a {
+  color: #FFE600 !important;
+  text-decoration: underline !important;
+}
+
+body.alto-contraste a *,
+body.alto-contraste button * {
+  color: inherit !important;
+}
+
+body.alto-contraste article,
+body.alto-contraste section,
+body.alto-contraste header,
+body.alto-contraste footer,
+body.alto-contraste [role="dialog"],
+body.alto-contraste [role="tablist"],
+body.alto-contraste table,
+body.alto-contraste pre {
+  border-color: #FFE600 !important;
+}
+
+body.alto-contraste input,
+body.alto-contraste select,
+body.alto-contraste textarea {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFE600 !important;
+}
+
+body.alto-contraste input::placeholder,
+body.alto-contraste textarea::placeholder {
+  color: #D4D4D8 !important;
+  opacity: 1 !important;
+}
+
+body.alto-contraste [role="alert"] {
+  background-color: #000000 !important;
+  border: 2px solid #FFE600 !important;
+  color: #FFE600 !important;
+}
+
+body.alto-contraste button {
+  background-color: #000000 !important;
+  color: #FFE600 !important;
+  border: 2px solid #FFE600 !important;
+}
+
+body.alto-contraste button[aria-pressed="true"],
+body.alto-contraste button[aria-selected="true"],
+body.alto-contraste button[type="submit"],
+body.alto-contraste a[class*="bg-"] {
+  background-color: #FFE600 !important;
+  color: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.alto-contraste button:disabled,
+body.alto-contraste [disabled] {
+  background-color: #000000 !important;
+  color: #D4D4D8 !important;
+  border: 2px dashed #A3A3A3 !important;
+  opacity: 1 !important;
+}
+
+body.alto-contraste :focus-visible {
+  outline: 3px solid #FFFF00 !important;
+  outline-offset: 3px !important;
+}
+
+/* =========================================================
+   Accesibilidad: Resaltado de enlaces y botones
+   ========================================================= */
+body.resaltar-enlaces a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 3px !important;
+  outline: 2px solid #2563EB !important;
+  outline-offset: 2px !important;
+  border-radius: 6px;
+}
+
+body.resaltar-enlaces button:not(:disabled) {
+  outline: 2px dashed #EA580C !important;
+  outline-offset: 2px !important;
+}
+
+html.dark body.resaltar-enlaces a {
+  outline-color: #60A5FA !important;
+}
+
+html.dark body.resaltar-enlaces button:not(:disabled) {
+  outline-color: #FB923C !important;
+}
+
+body.alto-contraste.resaltar-enlaces a,
+body.alto-contraste.resaltar-enlaces button:not(:disabled) {
+  outline: 3px solid #FFFF00 !important;
+  outline-offset: 3px !important;
+}
+
+/* =========================================================
+   Accesibilidad: Pausa de animaciones
+   ========================================================= */
+html.pausar-animaciones,
+body.pausar-animaciones {
+  scroll-behavior: auto !important;
+}
+
+body.pausar-animaciones *,
+body.pausar-animaciones *::before,
+body.pausar-animaciones *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  .animate-marquee {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

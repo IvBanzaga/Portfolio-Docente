@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iván Bazaga | Desarrollo Web, Automatización n8n y Docencia</title>
+    <meta
+      name="description"
+      content="Portafolio profesional de Iván Bazaga. Aplicaciones web con React, TypeScript, Next.js y PHP, flujos de automatización con n8n y herramientas para docencia tecnológica."
+    />
+    <meta name="author" content="Iván Bazaga" />
+    <meta name="theme-color" content="#2563EB" />
+
+    <!-- Prevent theme & font-size flash on load -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          }
+          var a11yRaw = localStorage.getItem('a11y-preferences');
+          if (a11yRaw) {
+            var prefs = JSON.parse(a11yRaw);
+            if (prefs && typeof prefs.fontSizePercent === 'number') {
+              document.documentElement.style.fontSize = prefs.fontSizePercent + '%';
+            }
+            if (prefs && prefs.pauseAnimations) {
+              document.documentElement.classList.add('pausar-animaciones');
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="Iván Bazaga" />
+    <meta property="og:title" content="Iván Bazaga | Desarrollo Web, Automatización n8n y Docencia" />
+    <meta
+      property="og:description"
+      content="Explora 17 proyectos web reales, recursos educativos digitales, automatizaciones con n8n y laboratorio interactivo de Iván Bazaga."
+    />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Iván Bazaga | Desarrollo Web, Automatización n8n y Docencia" />
+    <meta
+      name="twitter:description"
+      content="Aplicaciones web full-stack, workflows con n8n y herramientas digitales para la docencia y la formación tecnológica."
+    />
+
+    <!-- Inline SVG Favicon -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232563EB'/%3E%3Cstop offset='100%25' stop-color='%23F97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='800' font-size='28' fill='white'%3EIB%3C/text%3E%3C/svg%3E"
+    />
+
+    <!-- Google Fonts: Bricolage Grotesque (Display), Plus Jakarta Sans (Body), JetBrains Mono (Code/Tabular) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Iván Bazaga",
+        "url": "https://ivandevs.netlify.app/",
+        "email": "mailto:info@creamiproyecto.com",
+        "jobTitle": "Desarrollador de Aplicaciones Web, Automatización n8n y Formador Tecnológico",
+        "sameAs": [
+          "https://github.com/IvBanzaga",
+          "https://www.linkedin.com/in/ivan-bazaga-gonzalez/",
+          "https://x.com/IvanGon08379247"
+        ]
+      }
+    </script>
+  </head>
+  <body class="bg-[#F8FAFC] text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased selection:bg-blue-600 selection:text-white transition-colors duration-200">
+    <script>
+      (function () {
+        try {
+          var a11yRaw = localStorage.getItem('a11y-preferences');
+          if (a11yRaw) {
+            var prefs = JSON.parse(a11yRaw);
+            if (prefs && prefs.highContrast) document.body.classList.add('alto-contraste');
+            if (prefs && prefs.highlightLinks) document.body.classList.add('resaltar-enlaces');
+            if (prefs && prefs.pauseAnimations) document.body.classList.add('pausar-animaciones');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
