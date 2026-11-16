@@ -252,8 +252,9 @@ export function TeachingSection({
             const theme = TEACHING_CARD_THEMES[idx % TEACHING_CARD_THEMES.length];
 
             return (
-              <div
+              <article
                 key={pillar.id}
+                data-pillar-id={pillar.id}
                 onMouseEnter={() => setHoveredPillarId(pillar.id)}
                 onFocus={() => setHoveredPillarId(pillar.id)}
                 onBlur={(e) => {
@@ -335,7 +336,7 @@ export function TeachingSection({
                     </div>
                   )}
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>

@@ -3,10 +3,10 @@ import { Project } from '../../types/portfolio';
 import { SolvedPlacement, solveDevBotPlacement } from './DevBotCollision';
 import {
   DEVBOT_SECRETS,
-  findProjectForCard,
   getSectionGuide,
   getSectionMessageVariant,
   INITIAL_GREETING_MESSAGE,
+  resolveCardInfo,
   RETURN_GREETING_MESSAGES,
   SECTION_GUIDES,
   SecretToken,
@@ -960,14 +960,14 @@ export function useDevBotController({
       clearTimer(secondaryStateTimerRef);
       isInactiveRef.current = false;
 
-      const matchedProject = findProjectForCard(card);
-      if (matchedProject) {
-        setLastExploredProject(matchedProject);
+      const cardInfo = resolveCardInfo(card);
+      if (cardInfo?.project) {
+        setLastExploredProject(cardInfo.project);
       }
 
       const cardCoords = computeTargetCoordinates(
         card,
-        Boolean(matchedProject) || tourActiveRef.current
+        Boolean(cardInfo) || tourActiveRef.current
       );
       // Respond promptly (cancel stale animations, quick 160ms glide -> CURIOUS -> POINTING -> reading calm)
       transitionTo(cardCoords, 'CURIOUS', 'WALKING', 160, 1750);
@@ -981,13 +981,14 @@ export function useDevBotController({
         setState('POINTING');
       }
 
-      if (matchedProject) {
+      if (cardInfo) {
+        lastBubbleKeyRef.current = '';
         showTimedBubble(
           {
-            key: `card-${matchedProject.id}`,
-            kicker: `${matchedProject.title} · ${matchedProject.status}`,
-            text: matchedProject.shortDescription,
-            project: matchedProject,
+            key: cardInfo.key,
+            kicker: cardInfo.kicker,
+            text: cardInfo.text,
+            project: cardInfo.project,
           },
           6200
         );
@@ -999,6 +1000,7 @@ export function useDevBotController({
       cardLeaveTimerRef.current = window.setTimeout(() => {
         if (!hoveredCardRef.current) return;
         hoveredCardRef.current = null;
+        lastBubbleKeyRef.current = '';
         if (
           stateRef.current === 'HIDDEN' ||
           hasOpenModal ||

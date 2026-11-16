@@ -1,4 +1,5 @@
 import { PROJECTS } from '../../data/projects';
+import { TEACHING_PILLARS } from '../../data/teachingAndTimeline';
 import { Project } from '../../types/portfolio';
 import { DevBotState } from './DevBotSprites';
 
@@ -275,6 +276,13 @@ export function getSectionMessageVariant(sectionId: string, visitIndex: number):
   return pool[visitIndex % pool.length];
 }
 
+export interface DevBotCardInfo {
+  key: string;
+  kicker: string;
+  text: string;
+  project?: Project;
+}
+
 export function findProjectForCard(card: HTMLElement): Project | null {
   const heading = card.querySelector('h3, h4, h2');
   const titleText = heading?.textContent?.trim().toLowerCase();
@@ -285,4 +293,36 @@ export function findProjectForCard(card: HTMLElement): Project | null {
     PROJECTS.find((p) => titleText.includes(p.title.toLowerCase())) ||
     null
   );
+}
+
+export function resolveCardInfo(card: HTMLElement): DevBotCardInfo | null {
+  const pillarId = card.getAttribute('data-pillar-id');
+  if (pillarId) {
+    const pillar = TEACHING_PILLARS.find((item) => item.id === pillarId);
+    if (pillar) {
+      const linked = PROJECTS.find((p) => p.id === pillar.projectId);
+      const effectiveProject = linked
+        ? pillar.demoUrl
+          ? { ...linked, demoUrl: pillar.demoUrl }
+          : linked
+        : undefined;
+
+      return {
+        key: `pillar-${pillar.id}`,
+        kicker: `${pillar.category} · ${linked ? linked.title : pillar.appliedIn}`,
+        text: pillar.description,
+        project: effectiveProject,
+      };
+    }
+  }
+
+  const project = findProjectForCard(card);
+  if (!project) return null;
+
+  return {
+    key: `card-${project.id}`,
+    kicker: `${project.title} · ${project.status}`,
+    text: project.shortDescription,
+    project,
+  };
 }
