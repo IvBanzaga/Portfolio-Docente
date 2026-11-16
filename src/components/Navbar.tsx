@@ -1,6 +1,7 @@
 import { Menu, Moon, Sun, X } from 'lucide-react';
 import { useState } from 'react';
 import { AccessibilityMenu, AccessibilityPrefs } from './AccessibilityMenu';
+import { PWAInstallButton } from './PWAInstallButton';
 import { SocialLinks } from './SocialLinks';
 
 interface NavbarProps {
@@ -73,6 +74,8 @@ export function Navbar({
           <div className="hidden sm:flex items-center">
             <SocialLinks variant="nav" />
           </div>
+
+          <PWAInstallButton />
 
           <AccessibilityMenu prefs={a11yPrefs} onChangePrefs={onChangeA11yPrefs} />
 

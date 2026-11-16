@@ -197,6 +197,7 @@ export function useDevBotController({
   const effectiveAnimationsDisabled = pauseAnimations || !animationsEnabled;
 
   const isBotHidden = state === 'HIDDEN';
+  const isSuspended = isBotHidden || !isDesktop;
 
   // Refs for zero-render rAF transforms, finite-state transitions & timer hygiene
   const botLayerRef = useRef<HTMLDivElement | null>(null);
@@ -264,20 +265,20 @@ export function useDevBotController({
     }
   };
 
-  // Sync DOM layer transform directly whenever DevBot mounts or unhides
+  // Sync DOM layer transform directly whenever DevBot mounts, unhides, or switches to desktop
   useLayoutEffect(() => {
-    if (!isBotHidden && botLayerRef.current) {
+    if (!isSuspended && botLayerRef.current) {
       const c = coordsRef.current;
       botLayerRef.current.style.transform = `translate3d(${c.x}px, ${c.y}px, 0)`;
     }
-  }, [isBotHidden]);
+  }, [isSuspended]);
 
-  // Preload & decode all 7 pixel-art pose sprites once in browser idle time
+  // Preload & decode all 7 pixel-art pose sprites once in browser idle time (desktop only)
   useEffect(() => {
-    if (!isBotHidden) {
+    if (!isSuspended) {
       preloadDevBotSprites();
     }
-  }, [isBotHidden]);
+  }, [isSuspended]);
 
   // Persist user preferences & collected secrets
   useEffect(() => {
@@ -606,18 +607,64 @@ export function useDevBotController({
         clearTimer(readingTimerRef);
         clearTimer(tourAutoTimerRef);
         clearRaf(scrollRafRef);
-      } else if (stateRef.current !== 'HIDDEN' && !interactionsPausedRef.current) {
+      } else if (!isSuspended && !interactionsPausedRef.current) {
         scheduleRestCheck();
       }
     };
 
     document.addEventListener('visibilitychange', onVisibilityChange);
     return () => document.removeEventListener('visibilitychange', onVisibilityChange);
-  }, [scheduleRestCheck]);
+  }, [isSuspended, scheduleRestCheck]);
+
+  // Track desktop vs mobile viewport so DevBot never mounts/runs on mobile
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const updateDesktopState = () => {
+      const desktopNow = window.innerWidth >= DESKTOP_BREAKPOINT;
+      setIsDesktop((prev) => (prev === desktopNow ? prev : desktopNow));
+    };
+
+    updateDesktopState();
+    const mq = window.matchMedia?.(`(min-width: ${DESKTOP_BREAKPOINT}px)`);
+    if (mq?.addEventListener) {
+      mq.addEventListener('change', updateDesktopState);
+      return () => mq.removeEventListener('change', updateDesktopState);
+    }
+
+    window.addEventListener('resize', updateDesktopState, { passive: true });
+    return () => window.removeEventListener('resize', updateDesktopState);
+  }, []);
+
+  // Suspend active overlays/timers cleanly when switching into mobile viewport
+  useEffect(() => {
+    if (isDesktop) return;
+
+    clearTimer(walkTimerRef);
+    clearTimer(secondaryStateTimerRef);
+    clearTimer(readingTimerRef);
+    clearTimer(bubbleTimerRef);
+    clearTimer(cardLeaveTimerRef);
+    clearTimer(highlightTimerRef);
+    clearTimer(greetingTimerRef);
+    clearTimer(restTimerRef);
+    clearTimer(idleVariationTimerRef);
+    clearTimer(tourAutoTimerRef);
+    clearTimer(scrollSettleTimerRef);
+    clearTimer(actionTimerRef);
+    clearRaf(scrollRafRef);
+    clearRaf(actionRafRef);
+    clearSectionSpotlight();
+    hoveredCardRef.current = null;
+    pointingTargetRef.current = null;
+    setMenuOpen(false);
+    setTourActive(false);
+    setTourPaused(false);
+  }, [clearSectionSpotlight, isDesktop]);
 
   // Initial collision-free positioning + entrance greeting -> active section
   useEffect(() => {
-    if (isBotHidden) return;
+    if (isSuspended) return;
 
     const rafId = window.requestAnimationFrame(() => {
       if (stateRef.current !== 'HIDDEN') {
@@ -655,11 +702,11 @@ export function useDevBotController({
       window.cancelAnimationFrame(rafId);
       clearTimer(greetingTimerRef);
     };
-  }, [applyCoordsStable, computeSectionCoordinates, isBotHidden, showTimedBubble, transitionTo]);
+  }, [applyCoordsStable, computeSectionCoordinates, isSuspended, showTimedBubble, transitionTo]);
 
   // Modal open (e.g. clicking a project card) triggers CELEBRATING + real project info
   useEffect(() => {
-    if (isBotHidden) return;
+    if (isSuspended) return;
     if (hasOpenModal) {
       clearTimer(walkTimerRef);
       clearTimer(secondaryStateTimerRef);
@@ -688,20 +735,18 @@ export function useDevBotController({
       scheduleReadingSettle(2800);
       scheduleRestCheck();
     }
-  }, [hasOpenModal, isBotHidden, scheduleReadingSettle, scheduleRestCheck, selectedProject, showTimedBubble]);
+  }, [hasOpenModal, isSuspended, scheduleReadingSettle, scheduleRestCheck, selectedProject, showTimedBubble]);
 
-  // Viewport resize listener (rAF-throttled, detached when hidden)
+  // Viewport resize listener (rAF-throttled, detached when hidden or mobile)
   useEffect(() => {
-    if (isBotHidden) return;
+    if (isSuspended) return;
     let resizeRaf: number | null = null;
 
     const handleResize = () => {
       if (resizeRaf !== null) return;
       resizeRaf = window.requestAnimationFrame(() => {
         resizeRaf = null;
-        const desktopNow = window.innerWidth >= DESKTOP_BREAKPOINT;
-        setIsDesktop(desktopNow);
-        if (stateRef.current === 'HIDDEN') return;
+        if (stateRef.current === 'HIDDEN' || window.innerWidth < DESKTOP_BREAKPOINT) return;
 
         if (hoveredCardRef.current) {
           applyCoordsStable(computeTargetCoordinates(hoveredCardRef.current));
@@ -718,11 +763,11 @@ export function useDevBotController({
       window.removeEventListener('resize', handleResize);
       if (resizeRaf !== null) window.cancelAnimationFrame(resizeRaf);
     };
-  }, [applyCoordsStable, computeSectionCoordinates, computeTargetCoordinates, isBotHidden]);
+  }, [applyCoordsStable, computeSectionCoordinates, computeTargetCoordinates, isSuspended]);
 
   // IntersectionObserver for section tracking + non-repetitive contextual variants
   useEffect(() => {
-    if (isBotHidden) return;
+    if (isSuspended) return;
     const elements = SECTION_GUIDES.map((s) => document.getElementById(s.id)).filter(
       (el): el is HTMLElement => Boolean(el)
     );
@@ -776,11 +821,11 @@ export function useDevBotController({
 
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [computeSectionCoordinates, hasOpenModal, isBotHidden, showTimedBubble, transitionTo]);
+  }, [computeSectionCoordinates, hasOpenModal, isSuspended, showTimedBubble, transitionTo]);
 
   // Smooth scroll follower: rAF-synced + throttled collision solves + trailing settle
   useEffect(() => {
-    if (isBotHidden) return;
+    if (isSuspended) return;
 
     const runScrollPlacement = () => {
       if (stateRef.current === 'HIDDEN' || hasOpenModal || interactionsPausedRef.current) return;
@@ -862,14 +907,14 @@ export function useDevBotController({
     computeSectionCoordinates,
     computeTargetCoordinates,
     hasOpenModal,
-    isBotHidden,
+    isSuspended,
     recordVisitorActivity,
     scheduleReadingSettle,
   ]);
 
   // Brief non-intrusive reaction to real visitor clicks / keyboard activity + return from idle
   useEffect(() => {
-    if (isBotHidden) return;
+    if (isSuspended) return;
 
     const handleClick = (e: MouseEvent) => {
       if (stateRef.current === 'HIDDEN') return;
@@ -934,11 +979,11 @@ export function useDevBotController({
       document.removeEventListener('click', handleClick);
       window.removeEventListener('keydown', handleKeyActivity);
     };
-  }, [hasOpenModal, isBotHidden, menuOpen, recordVisitorActivity]);
+  }, [hasOpenModal, isSuspended, menuOpen, recordVisitorActivity]);
 
   // Project card hover/focus detection -> fast prioritized reaction, then calm reading stillness
   useEffect(() => {
-    if (isBotHidden) return;
+    if (isSuspended) return;
 
     const findProjectCard = (target: EventTarget | null): HTMLElement | null => {
       if (!(target instanceof Element)) return null;
@@ -1058,7 +1103,7 @@ export function useDevBotController({
     computeSectionCoordinates,
     computeTargetCoordinates,
     hasOpenModal,
-    isBotHidden,
+    isSuspended,
     showTimedBubble,
     transitionTo,
   ]);
@@ -1143,7 +1188,7 @@ export function useDevBotController({
     if (
       !tourActive ||
       tourPaused ||
-      state === 'HIDDEN' ||
+      isSuspended ||
       hasOpenModal ||
       menuOpen ||
       isTabHidden
@@ -1163,9 +1208,9 @@ export function useDevBotController({
   }, [
     goToTourStep,
     hasOpenModal,
+    isSuspended,
     isTabHidden,
     menuOpen,
-    state,
     stopTour,
     tourActive,
     tourPaused,

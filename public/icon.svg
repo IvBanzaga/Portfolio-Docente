@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Iván Bazaga">
+  <defs>
+    <linearGradient id="ib-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="52%" stop-color="#0D9488" />
+      <stop offset="100%" stop-color="#F97316" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#ib-grad)" />
+  <rect x="24" y="24" width="464" height="464" rx="102" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="6" />
+  <text
+    x="50%"
+    y="54%"
+    dominant-baseline="middle"
+    text-anchor="middle"
+    font-family="system-ui,-apple-system,'Segoe UI',sans-serif"
+    font-weight="800"
+    font-size="232"
+    letter-spacing="-8"
+    fill="#FFFFFF"
+  >
+    IB
+  </text>
+</svg>

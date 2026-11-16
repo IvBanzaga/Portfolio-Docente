@@ -88,6 +88,7 @@ export function DevBot({
   const {
     state,
     botLayerRef,
+    isDesktop,
     isReading,
     isTabHidden,
     interactionsPaused,
@@ -149,6 +150,10 @@ export function DevBot({
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [menuOpen, setMenuOpen]);
+
+  if (!isDesktop) {
+    return null;
+  }
 
   if (state === 'HIDDEN') {
     return (

@@ -21,6 +21,7 @@ import { Hero } from './components/Hero';
 import { InteractiveLab } from './components/InteractiveLab';
 import { Navbar } from './components/Navbar';
 import { NotFound } from './components/NotFound';
+import { OfflineIndicator } from './components/OfflineIndicator';
 import { ProjectModal } from './components/ProjectModal';
 import { ProjectsSection } from './components/ProjectsSection';
 import { SkillsMatrix } from './components/SkillsMatrix';
@@ -228,6 +229,8 @@ export default function App() {
             pauseAnimations={a11yPrefs.pauseAnimations}
           />
         )}
+
+        <OfflineIndicator />
 
         {showScrollTop && (
           <button
