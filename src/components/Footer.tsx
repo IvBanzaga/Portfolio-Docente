@@ -8,7 +8,7 @@ interface FooterProps {
 
 export function Footer({ onNavigate }: FooterProps) {
   return (
-    <footer className="border-t border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-slate-950 py-10 no-print transition-colors duration-200">
+    <footer className="border-t border-slate-300/70 dark:border-slate-800 bg-[#E9EEF5] dark:bg-slate-950 py-10 no-print transition-colors duration-200">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 md:flex-row md:items-center md:justify-between sm:px-6">
         <div>
           <p className="font-display text-base font-bold text-slate-950 dark:text-white">

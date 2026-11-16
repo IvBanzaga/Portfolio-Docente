@@ -113,7 +113,7 @@ export function ProjectsSection({
   return (
     <section
       id="proyectos"
-      className="py-16 sm:py-20 bg-[#F8FAFC] dark:bg-slate-950 border-b border-slate-200/80 dark:border-slate-800"
+      className="py-16 sm:py-20 bg-[#E9EEF5] dark:bg-slate-950 border-b border-slate-300/70 dark:border-slate-800"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Featured Bento Grid */}

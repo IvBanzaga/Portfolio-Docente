@@ -34,7 +34,7 @@ export function Navbar({
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/80 dark:border-slate-800/90 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md no-print transition-colors duration-200">
+    <header className="sticky top-0 z-40 border-b border-slate-300/70 dark:border-slate-800/90 bg-[#F2F5F9]/90 dark:bg-slate-950/90 backdrop-blur-md no-print transition-colors duration-200">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 lg:gap-8 px-4 py-3 sm:px-6">
         {/* Zone 1: Single-line Brand Wordmark */}
         <a

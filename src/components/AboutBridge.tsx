@@ -43,7 +43,7 @@ export function AboutBridge({ onSelectProject }: AboutBridgeProps) {
   return (
     <section
       id="sobre-mi"
-      className="py-16 sm:py-20 bg-white dark:bg-slate-900 border-b border-slate-200/80 dark:border-slate-800"
+      className="py-16 sm:py-20 bg-[#F2F5F9] dark:bg-slate-900 border-b border-slate-300/70 dark:border-slate-800"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start">
@@ -65,7 +65,7 @@ export function AboutBridge({ onSelectProject }: AboutBridgeProps) {
 
           {/* Interactive Pedagogy <-> Engineering Bridge */}
           <div className="lg:col-span-6">
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-slate-950 p-5 sm:p-6">
+            <div className="rounded-2xl border border-slate-300/80 dark:border-slate-800 bg-[#E9EEF5] dark:bg-slate-950 p-5 sm:p-6">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h3 className="font-display text-lg font-bold text-slate-950 dark:text-white">

@@ -206,7 +206,7 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contacto" className="py-16 sm:py-20 bg-white dark:bg-slate-900">
+    <section id="contacto" className="py-16 sm:py-20 bg-[#F2F5F9] dark:bg-slate-900">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
           {/* Left Info & Profiles */}
@@ -224,7 +224,7 @@ export function ContactSection() {
               </p>
 
               {/* Direct Email Card */}
-              <div className="mt-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-slate-950 p-4">
+              <div className="mt-6 rounded-2xl border border-slate-300/80 dark:border-slate-800 bg-[#E9EEF5] dark:bg-slate-950 p-4">
                 <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                   Correo profesional
                 </p>
@@ -336,7 +336,7 @@ export function ContactSection() {
 
           {/* Right Form with Validation, Direct Email Delivery & Dynamic Anti-Spam */}
           <div className="lg:col-span-7">
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-slate-950 p-5 sm:p-8">
+            <div className="rounded-2xl border border-slate-300/80 dark:border-slate-800 bg-[#E9EEF5] dark:bg-slate-950 p-5 sm:p-8">
               {submitted ? (
                 <div className="py-8 text-center space-y-4">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">

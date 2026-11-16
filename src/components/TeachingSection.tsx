@@ -81,7 +81,7 @@ export function TeachingSection({
   return (
     <section
       id="docencia"
-      className="py-16 sm:py-20 bg-gradient-to-b from-orange-50/45 via-white to-white dark:from-orange-950/15 dark:via-slate-900 dark:to-slate-900 border-b border-slate-200/80 dark:border-slate-800"
+      className="py-16 sm:py-20 bg-gradient-to-b from-orange-100/50 via-[#F2F5F9] to-[#F2F5F9] dark:from-orange-950/15 dark:via-slate-900 dark:to-slate-900 border-b border-slate-300/70 dark:border-slate-800"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -156,8 +156,8 @@ export function TeachingSection({
                   isActive
                     ? theme.cardActive
                     : isDimmed
-                      ? 'border-slate-200/70 dark:border-slate-800/70 bg-[#F8FAFC] dark:bg-slate-950 opacity-50 saturate-[0.65] scale-[0.99]'
-                      : 'border-slate-200/90 dark:border-slate-800 bg-[#F8FAFC] dark:bg-slate-950 opacity-95'
+                      ? 'border-slate-200/80 dark:border-slate-800/70 bg-white/85 dark:bg-slate-950 opacity-50 saturate-[0.65] scale-[0.99]'
+                      : 'border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 opacity-95'
                 }`}
               >
                 <div>

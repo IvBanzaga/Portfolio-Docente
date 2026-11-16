@@ -148,7 +148,7 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion={a11yPrefs.pauseAnimations ? 'always' : 'user'}>
-      <div className="min-h-screen flex flex-col bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+      <div className="min-h-screen flex flex-col bg-[#E9EEF5] dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-xl focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"

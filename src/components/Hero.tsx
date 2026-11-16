@@ -34,6 +34,9 @@ export function Hero({
 }: HeroProps) {
   const [lens, setLens] = useState<LensMode>('docencia');
   const [avatarError, setAvatarError] = useState(false);
+  const [hoveredStat, setHoveredStat] = useState<'projects' | 'scopes' | 'n8n' | 'fullstack' | null>(
+    null
+  );
 
   const webSpotlight =
     featuredProjects.find((p) => p.id === 'urban-manager') || featuredProjects[0];
@@ -173,7 +176,13 @@ export function Hero({
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="flex h-full flex-col justify-between rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm sm:p-6"
+              className={`flex h-full flex-col justify-between rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm sm:p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl ${
+                lens === 'web'
+                  ? 'hover:border-blue-400 dark:hover:border-blue-500 hover:bg-gradient-to-br hover:from-white hover:to-blue-50/90 dark:hover:from-slate-900 dark:hover:to-blue-950/35 hover:shadow-blue-500/15'
+                  : lens === 'docencia'
+                    ? 'hover:border-orange-400 dark:hover:border-orange-500 hover:bg-gradient-to-br hover:from-white hover:to-orange-50/90 dark:hover:from-slate-900 dark:hover:to-orange-950/35 hover:shadow-orange-500/15'
+                    : 'hover:border-teal-400 dark:hover:border-teal-500 hover:bg-gradient-to-br hover:from-white hover:to-teal-50/90 dark:hover:from-slate-900 dark:hover:to-teal-950/35 hover:shadow-teal-500/15'
+              }`}
             >
               <div>
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -324,8 +333,20 @@ export function Hero({
         </div>
 
         {/* Full-Width 4-Column Summary Strip below Hero Split */}
-        <div className="mt-10 grid grid-cols-2 gap-4 border-t border-slate-200/80 dark:border-slate-800 pt-8 sm:grid-cols-4">
-          <div className="rounded-xl bg-white/80 dark:bg-slate-900/90 p-4 border border-slate-200/70 dark:border-slate-800">
+        <div
+          className="mt-10 grid grid-cols-2 gap-4 border-t border-slate-300/70 dark:border-slate-800 pt-8 sm:grid-cols-4"
+          onMouseLeave={() => setHoveredStat(null)}
+        >
+          <div
+            onMouseEnter={() => setHoveredStat('projects')}
+            className={`rounded-xl p-4 border transition-all duration-200 cursor-default ${
+              hoveredStat === 'projects'
+                ? '-translate-y-1 border-blue-400 dark:border-blue-500 bg-blue-50/95 dark:bg-blue-950/55 shadow-lg shadow-blue-500/15 ring-1 ring-blue-400/40'
+                : hoveredStat !== null
+                  ? 'border-slate-200/70 dark:border-slate-800/70 bg-white/80 dark:bg-slate-900/75 opacity-60 saturate-[0.75]'
+                  : 'border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/90 hover:-translate-y-1 hover:border-blue-400 hover:bg-blue-50/95 hover:shadow-lg hover:shadow-blue-500/15'
+            }`}
+          >
             <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
               <Code2 className="h-4 w-4" />
               <span className="font-display text-2xl font-extrabold text-slate-950 dark:text-white tabular-nums">
@@ -337,7 +358,16 @@ export function Hero({
             </p>
           </div>
 
-          <div className="rounded-xl bg-white/80 dark:bg-slate-900/90 p-4 border border-slate-200/70 dark:border-slate-800">
+          <div
+            onMouseEnter={() => setHoveredStat('scopes')}
+            className={`rounded-xl p-4 border transition-all duration-200 cursor-default ${
+              hoveredStat === 'scopes'
+                ? '-translate-y-1 border-orange-400 dark:border-orange-500 bg-orange-50/95 dark:bg-orange-950/55 shadow-lg shadow-orange-500/15 ring-1 ring-orange-400/40'
+                : hoveredStat !== null
+                  ? 'border-slate-200/70 dark:border-slate-800/70 bg-white/80 dark:bg-slate-900/75 opacity-60 saturate-[0.75]'
+                  : 'border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/90 hover:-translate-y-1 hover:border-orange-400 hover:bg-orange-50/95 hover:shadow-lg hover:shadow-orange-500/15'
+            }`}
+          >
             <div className="flex items-center gap-2 text-orange-500 dark:text-orange-400">
               <BookOpen className="h-4 w-4" />
               <span className="font-display text-2xl font-extrabold text-slate-950 dark:text-white tabular-nums">
@@ -349,7 +379,16 @@ export function Hero({
             </p>
           </div>
 
-          <div className="rounded-xl bg-white/80 dark:bg-slate-900/90 p-4 border border-slate-200/70 dark:border-slate-800">
+          <div
+            onMouseEnter={() => setHoveredStat('n8n')}
+            className={`rounded-xl p-4 border transition-all duration-200 cursor-default ${
+              hoveredStat === 'n8n'
+                ? '-translate-y-1 border-teal-400 dark:border-teal-500 bg-teal-50/95 dark:bg-teal-950/55 shadow-lg shadow-teal-500/15 ring-1 ring-teal-400/40'
+                : hoveredStat !== null
+                  ? 'border-slate-200/70 dark:border-slate-800/70 bg-white/80 dark:bg-slate-900/75 opacity-60 saturate-[0.75]'
+                  : 'border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/90 hover:-translate-y-1 hover:border-teal-400 hover:bg-teal-50/95 hover:shadow-lg hover:shadow-teal-500/15'
+            }`}
+          >
             <div className="flex items-center gap-2 text-teal-600 dark:text-teal-400">
               <Workflow className="h-4 w-4" />
               <span className="font-display text-2xl font-extrabold text-slate-950 dark:text-white">
@@ -361,7 +400,16 @@ export function Hero({
             </p>
           </div>
 
-          <div className="rounded-xl bg-white/80 dark:bg-slate-900/90 p-4 border border-slate-200/70 dark:border-slate-800">
+          <div
+            onMouseEnter={() => setHoveredStat('fullstack')}
+            className={`rounded-xl p-4 border transition-all duration-200 cursor-default ${
+              hoveredStat === 'fullstack'
+                ? '-translate-y-1 border-indigo-400 dark:border-indigo-500 bg-indigo-50/95 dark:bg-indigo-950/55 shadow-lg shadow-indigo-500/15 ring-1 ring-indigo-400/40'
+                : hoveredStat !== null
+                  ? 'border-slate-200/70 dark:border-slate-800/70 bg-white/80 dark:bg-slate-900/75 opacity-60 saturate-[0.75]'
+                  : 'border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/90 hover:-translate-y-1 hover:border-indigo-400 hover:bg-indigo-50/95 hover:shadow-lg hover:shadow-indigo-500/15'
+            }`}
+          >
             <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
               <Layers className="h-4 w-4" />
               <span className="font-display text-2xl font-extrabold text-slate-950 dark:text-white">
