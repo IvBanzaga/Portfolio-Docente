@@ -153,42 +153,68 @@ export function ContactSection() {
 
     setIsSending(true);
     const controller = new AbortController();
-    const timeoutId = window.setTimeout(() => controller.abort(), 22000);
+    const timeoutId = window.setTimeout(() => controller.abort(), 9000);
 
     try {
       const customWebhook = import.meta.env.VITE_CONTACT_WEBHOOK_URL?.trim();
-      const endpoint =
-        customWebhook || 'https://formsubmit.co/ajax/d68db123b4fb0a8382a0967b4175d136';
+      const web3FormsKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim();
 
-      const payload = customWebhook
-        ? {
+      let response: Response;
+
+      if (customWebhook) {
+        response = await fetch(customWebhook, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
             name: name.trim(),
             email: email.trim(),
             topic,
             message: message.trim(),
             source: 'portfolio-ivan-bazaga',
             sentAt: new Date().toISOString(),
-          }
-        : {
-            name: name.trim(),
-            email: email.trim(),
-            _replyto: email.trim(),
-            asunto: topic,
-            message: message.trim(),
-            _subject: `[Portfolio] ${topic}: ${name.trim()}`,
-            _template: 'table',
-            _captcha: 'false',
-          };
+          }),
+          signal: controller.signal,
+        });
+      } else if (web3FormsKey) {
+        const formData = new FormData();
+        formData.append('access_key', web3FormsKey);
+        formData.append('name', name.trim());
+        formData.append('email', email.trim());
+        formData.append('subject', `[Portfolio] ${topic}: ${name.trim()}`);
+        formData.append('topic', topic);
+        formData.append('message', message.trim());
 
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(payload),
-        signal: controller.signal,
-      });
+        response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: formData,
+          signal: controller.signal,
+        });
+      } else {
+        // Use FormData without custom Content-Type to avoid hanging CORS preflight (OPTIONS)
+        const formData = new FormData();
+        formData.append('name', name.trim());
+        formData.append('email', email.trim());
+        formData.append('_replyto', email.trim());
+        formData.append('asunto', topic);
+        formData.append('message', message.trim());
+        formData.append('_subject', `[Portfolio] ${topic}: ${name.trim()}`);
+        formData.append('_template', 'table');
+        formData.append('_captcha', 'false');
+
+        response = await fetch(
+          'https://formsubmit.co/ajax/d68db123b4fb0a8382a0967b4175d136',
+          {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: formData,
+            signal: controller.signal,
+          }
+        );
+      }
 
       const data = await response.json().catch(() => null);
 
@@ -213,7 +239,7 @@ export function ContactSection() {
       setSendFallbackAvailable(true);
       if (err instanceof DOMException && err.name === 'AbortError') {
         setError(
-          `El servicio de envío automático tardó demasiado en responder (timeout). Puedes enviar el mensaje al instante desde tu gestor de correo hacia ${PROFILE.email} o copiarlo abajo.`
+          `El servicio externo de correo (FormSubmit) no respondió a tiempo. Puedes enviarlo al instante desde tu gestor de correo hacia ${PROFILE.email} o copiar el mensaje.`
         );
       } else if (err instanceof Error && err.message) {
         setError(err.message);
