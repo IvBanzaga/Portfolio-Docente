@@ -2,6 +2,48 @@ import { Project } from '../types/portfolio';
 
 export const PROJECTS: Project[] = [
   {
+    id: 'react-email-studio',
+    title: 'React Email Studio',
+    subtitle: 'Editor visual de correos con sincronización TSX/HTML y modo PWA',
+    category: 'Herramientas profesionales y productividad',
+    domain: 'web',
+    status: 'Publicado',
+    featured: true,
+    visualKind: 'email-studio',
+    accentColor: 'indigo',
+    galleryCaptions: [
+      'Lienzo visual por bloques con edición de texto enriquecido',
+      'Simulación en vivo de variables dinámicas como {{nombre}} y {{empresa}}',
+      'Exportación a TSX de React Email y HTML compatible con Outlook y Gmail',
+    ],
+    shortDescription:
+      'Editor visual para diseñar plantillas de email profesional y generar código React Email (TSX) o HTML compatible con clientes de correo.',
+    problemSolved:
+      'Eliminar la fricción de maquetar tablas HTML compatibles con Outlook y Gmail manualmente, unificando diseño visual y código tipado.',
+    objective:
+      'Permitir construir, probar con variables dinámicas y exportar plantillas reutilizables incluso sin conexión mediante PWA.',
+    features: [
+      'Edición visual por bloques y texto enriquecido',
+      'Sincronización bidireccional del diseño con componentes React Email',
+      'Variables dinámicas ({{nombre}}, {{empresa}}) con simulador de destinatarios',
+      'Importación de HTML externo y exportación a HTML y TSX',
+      'Compatibilidad orientada a Outlook, Gmail y dispositivos móviles',
+      'Instalable como PWA con trabajo offline y guardado local',
+    ],
+    technologies: ['React Email', 'TSX', 'HTML5', 'PWA', 'Service Worker'],
+    architectureNotes: [
+      'Soporte offline mediante Service Worker y almacenamiento local de plantillas.',
+      'Generación de salida dual: código React Email modular y HTML en línea para clientes legacy.',
+    ],
+    challengesAndLearnings: [
+      'Sincronizar un árbol visual editable con código TSX limpio y previsualización fiable.',
+    ],
+    demoUrl: 'https://template-email-omega.vercel.app/',
+    verificationNote:
+      'Framework principal y librerías auxiliares pendientes de confirmar desde el repositorio.',
+    dateLabel: 'Productividad · PWA',
+  },
+  {
     id: 'urban-manager',
     title: 'Urban Manager',
     subtitle: 'Gestión ciudadana de incidencias urbanas con geolocalización',
@@ -107,48 +149,6 @@ export const PROJECTS: Project[] = [
     verificationNote:
       'Stack técnico interno pendiente de confirmar tras revisar el repositorio.',
     dateLabel: 'EdTech · Datos abiertos',
-  },
-  {
-    id: 'react-email-studio',
-    title: 'React Email Studio',
-    subtitle: 'Editor visual de correos con sincronización TSX/HTML y modo PWA',
-    category: 'Herramientas profesionales y productividad',
-    domain: 'web',
-    status: 'Publicado',
-    featured: true,
-    visualKind: 'email-studio',
-    accentColor: 'indigo',
-    galleryCaptions: [
-      'Lienzo visual por bloques con edición de texto enriquecido',
-      'Simulación en vivo de variables dinámicas como {{nombre}} y {{empresa}}',
-      'Exportación a TSX de React Email y HTML compatible con Outlook y Gmail',
-    ],
-    shortDescription:
-      'Editor visual para diseñar plantillas de email profesional y generar código React Email (TSX) o HTML compatible con clientes de correo.',
-    problemSolved:
-      'Eliminar la fricción de maquetar tablas HTML compatibles con Outlook y Gmail manualmente, unificando diseño visual y código tipado.',
-    objective:
-      'Permitir construir, probar con variables dinámicas y exportar plantillas reutilizables incluso sin conexión mediante PWA.',
-    features: [
-      'Edición visual por bloques y texto enriquecido',
-      'Sincronización bidireccional del diseño con componentes React Email',
-      'Variables dinámicas ({{nombre}}, {{empresa}}) con simulador de destinatarios',
-      'Importación de HTML externo y exportación a HTML y TSX',
-      'Compatibilidad orientada a Outlook, Gmail y dispositivos móviles',
-      'Instalable como PWA con trabajo offline y guardado local',
-    ],
-    technologies: ['React Email', 'TSX', 'HTML5', 'PWA', 'Service Worker'],
-    architectureNotes: [
-      'Soporte offline mediante Service Worker y almacenamiento local de plantillas.',
-      'Generación de salida dual: código React Email modular y HTML en línea para clientes legacy.',
-    ],
-    challengesAndLearnings: [
-      'Sincronizar un árbol visual editable con código TSX limpio y previsualización fiable.',
-    ],
-    demoUrl: 'https://template-email-omega.vercel.app/',
-    verificationNote:
-      'Framework principal y librerías auxiliares pendientes de confirmar desde el repositorio.',
-    dateLabel: 'Productividad · PWA',
   },
   {
     id: 'innovapyme-canarias',
@@ -310,6 +310,84 @@ export const PROJECTS: Project[] = [
     ],
     demoUrl: 'https://aura.creamiproyecto.com/',
     dateLabel: 'Recurso docente',
+  },
+  {
+    id: 'construye-plantilla',
+    title: 'Construye una plantilla',
+    subtitle: 'Plantilla web base en HTML5 y CSS3 con mapa interactivo de zonas semánticas',
+    category: 'Formación y herramientas educativas',
+    domain: 'docencia',
+    status: 'Publicado',
+    featured: false,
+    visualKind: 'template-blueprint',
+    accentColor: 'emerald',
+    galleryCaptions: [
+      'Mapa interactivo de estructura semántica (header, nav, main y footer)',
+      'Cabecera institucional fija, navegación multipágina y pie reutilizable',
+      'Guía práctica de bloques para crear páginas nuevas desde una base común',
+    ],
+    shortDescription:
+      'Plantilla web educativa en blanco con cabecera fija, menú de navegación, pie reutilizable y mapa interactivo para aprender a estructurar sitios HTML5 multipágina.',
+    problemSolved:
+      'Facilitar al alumnado una estructura base clara donde distinguir los elementos comunes de un sitio web frente al contenido específico de cada página dentro de <main>.',
+    objective:
+      'Acelerar la creación de páginas web reales (inicio, cursos y contacto) aplicando HTML5 semántico, variables CSS, formulario accesible y diseño responsive sin dependencias.',
+    features: [
+      'Mapa interactivo que identifica visualmente header, nav, main y footer',
+      'Cabecera, menú de navegación y pie de página fijos compartidos',
+      'Esquema guía para sitio multipágina (inicio, cursos y contacto)',
+      'Bloque de tarjetas de cursos y formulario de contacto accesible',
+      'Acceso directo a modo juego didáctico y diseño responsive sin servidor',
+    ],
+    technologies: ['HTML5 Semántico', 'CSS3', 'Plantilla web', 'Arquitectura multipágina'],
+    architectureNotes: [
+      'Uso de propiedades personalizadas CSS, navegación sticky y atributos data-zona para explicar cada región semántica.',
+      'Diseñada para duplicarse directamente como plantilla de partida en talleres y cursos de desarrollo web.',
+    ],
+    challengesAndLearnings: [
+      'Conectar de forma visual e inmediata la teoría de etiquetas semánticas con la reutilización práctica de plantillas.',
+    ],
+    demoUrl: 'https://aura.creamiproyecto.com/template.html',
+    dateLabel: 'Recurso docente',
+  },
+  {
+    id: 'moodle-design',
+    title: 'Moodle Design Library',
+    subtitle: 'Biblioteca visual de diseños y bloques HTML para Moodle sin código',
+    category: 'Formación y herramientas educativas',
+    domain: 'docencia',
+    status: 'Publicado',
+    featured: false,
+    visualKind: 'moodle-design',
+    accentColor: 'blue',
+    galleryCaptions: [
+      'Catálogo visual de avisos, tarjetas de actividad, guías y bloques para Moodle',
+      'Personalización directa de textos, enlaces y énfasis sin escribir código',
+      'Exportación limpia a HTML compatible con el editor de Moodle y soporte PWA',
+    ],
+    shortDescription:
+      'Biblioteca visual de diseños HTML para Moodle que permite crear, personalizar y exportar avisos, tarjetas de actividad y descripciones educativas sin escribir código.',
+    problemSolved:
+      'Evitar la maquetación manual de HTML en línea dentro del editor de Moodle para que docentes puedan publicar aulas virtuales claras, estructuradas y accesibles.',
+    objective:
+      'Proveer bloques listos para usar (avisos informativos, tarjetas de actividad, recursos descargables, guías y botones de alto contraste) listos para copiar y pegar en Moodle.',
+    features: [
+      'Biblioteca categorizada de componentes educativos: avisos, recursos, actividades y guías',
+      'Edición visual de contenidos sin necesidad de escribir HTML manualmente',
+      'Generación de código HTML limpio y compatible con el editor de Moodle',
+      'Botones y tarjetas con diseño de alto contraste orientados a accesibilidad',
+      'Aplicación web progresiva (PWA) instalable con icono dedicado',
+    ],
+    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'HTML5', 'Moodle', 'PWA'],
+    architectureNotes: [
+      'Componentes optimizados para generar HTML autocontenido compatible con las reglas de saneado de Moodle.',
+      'Configuración PWA con Web App Manifest e iconos dedicados para uso ágil desde escritorio o móvil.',
+    ],
+    challengesAndLearnings: [
+      'Diseñar bloques visualmente atractivos que mantengan legibilidad y contraste dentro del editor estándar de Moodle.',
+    ],
+    demoUrl: 'https://moodle-design.creamiproyecto.com/',
+    dateLabel: 'Docencia · Moodle EdTech',
   },
   {
     id: 'control-gastos',

@@ -30,7 +30,9 @@ export type VisualKind =
   | 'custody-calendar'
   | 'astro-community'
   | 'nasa-apod'
-  | 'astro-theme';
+  | 'astro-theme'
+  | 'template-blueprint'
+  | 'moodle-design';
 
 export interface Project {
   id: string;

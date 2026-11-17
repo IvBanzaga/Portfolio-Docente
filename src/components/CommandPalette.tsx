@@ -10,8 +10,8 @@ interface CommandPaletteProps {
   onNavigate: (sectionId: string) => void;
 }
 
-const SECTIONS = [
-  { id: 'proyectos', label: 'Catálogo de 17 proyectos' },
+const BASE_SECTIONS = [
+  { id: 'proyectos', label: 'Catálogo completo de proyectos' },
   { id: 'docencia', label: 'Docencia y formación tecnológica' },
   { id: 'laboratorio', label: 'Laboratorio interactivo (HTML5, Email, CSV y n8n)' },
   { id: 'competencias', label: 'Mapa de competencias, n8n y tecnologías' },
@@ -50,10 +50,13 @@ export function CommandPalette({
   }, [projects, query]);
 
   const matchingSections = useMemo(() => {
+    const sections = BASE_SECTIONS.map((s) =>
+      s.id === 'proyectos' ? { ...s, label: `Catálogo de ${projects.length} proyectos` } : s
+    );
     const q = query.trim().toLowerCase();
-    if (!q) return SECTIONS;
-    return SECTIONS.filter((s) => s.label.toLowerCase().includes(q));
-  }, [query]);
+    if (!q) return sections;
+    return sections.filter((s) => s.label.toLowerCase().includes(q));
+  }, [projects.length, query]);
 
   if (!open) return null;
 

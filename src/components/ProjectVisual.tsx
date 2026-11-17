@@ -193,6 +193,66 @@ function renderArtwork(project: Project) {
         </div>
       );
 
+    case 'template-blueprint':
+      return (
+        <div className="grid grid-cols-12 gap-2">
+          <div className="col-span-6 rounded-xl bg-white/95 dark:bg-slate-900/95 p-2.5 shadow-xs space-y-1.5 border border-emerald-200/80 dark:border-emerald-800/60">
+            <div className="text-[0.5625rem] font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
+              Mapa semántico
+            </div>
+            {[
+              { n: '1', tag: 'HEADER', tone: 'bg-emerald-50 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200' },
+              { n: '2', tag: 'NAV', tone: 'bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200' },
+              { n: '3', tag: 'MAIN', tone: 'bg-sky-50 dark:bg-sky-950/70 text-sky-800 dark:text-sky-200' },
+              { n: '4', tag: 'FOOTER', tone: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200' },
+            ].map((row) => (
+              <div
+                key={row.tag}
+                className={`flex items-center gap-1.5 rounded px-2 py-0.5 font-mono text-[0.5625rem] font-semibold ${row.tone}`}
+              >
+                <span className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full bg-rose-500 text-[0.5rem] text-white">
+                  {row.n}
+                </span>
+                <span>{row.tag}</span>
+              </div>
+            ))}
+          </div>
+          <div className="col-span-6 flex flex-col justify-between gap-1.5">
+            {['inicio.html', 'cursos.html', 'contacto.html'].map((file) => (
+              <div
+                key={file}
+                className="rounded-lg border border-slate-300/80 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 px-2.5 py-1.5 font-mono text-[0.625rem] font-semibold text-emerald-700 dark:text-emerald-300 shadow-xs"
+              >
+                {file}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+
+    case 'moodle-design':
+      return (
+        <div className="rounded-xl bg-white/95 dark:bg-slate-900/95 p-3 shadow-xs space-y-2">
+          <div className="rounded-lg border-l-4 border-blue-600 bg-blue-50/90 dark:bg-blue-950/60 px-2.5 py-1.5">
+            <div className="text-[0.625rem] font-bold text-blue-800 dark:text-blue-200">
+              Aviso informativo · Moodle
+            </div>
+            <div className="mt-1 h-1.5 w-4/5 rounded bg-blue-200 dark:bg-blue-800" />
+          </div>
+          <div className="grid grid-cols-12 gap-2 items-center">
+            <div className="col-span-8 rounded-lg border-l-4 border-emerald-600 bg-emerald-50/80 dark:bg-emerald-950/50 px-2.5 py-1.5">
+              <div className="text-[0.5625rem] font-semibold text-emerald-800 dark:text-emerald-200">
+                Tarjeta de actividad
+              </div>
+              <div className="mt-1 h-1.5 w-3/4 rounded bg-emerald-200 dark:bg-emerald-800" />
+            </div>
+            <div className="col-span-4 rounded-lg bg-blue-600 py-1.5 text-center font-mono text-[0.5625rem] font-bold text-white">
+              &lt;HTML/&gt;
+            </div>
+          </div>
+        </div>
+      );
+
     case 'nasa-apod':
     case 'astro-community':
       return (

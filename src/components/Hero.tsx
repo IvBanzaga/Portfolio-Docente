@@ -15,6 +15,7 @@ import lensDesarrolloImg from '../assets/images/lens_desarrollo_n8n_179477250831
 import lensDocenciaImg from '../assets/images/lens_docencia_edtech_1794772509368.jpg';
 import lensSintesisImg from '../assets/images/lens_sintesis_dual_1794772508391.jpg';
 import { PROFILE } from '../data/profile';
+import { PROJECTS } from '../data/projects';
 import { Project } from '../types/portfolio';
 
 interface HeroProps {
@@ -39,7 +40,7 @@ export function Hero({
   );
 
   const webSpotlight =
-    featuredProjects.find((p) => p.id === 'urban-manager') || featuredProjects[0];
+    featuredProjects.find((p) => p.id === 'react-email-studio') || featuredProjects[0];
   const teachingSpotlight =
     featuredProjects.find((p) => p.id === 'htmlab') || featuredProjects[0];
   const dualSpotlight =
@@ -350,7 +351,7 @@ export function Hero({
             <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
               <Code2 className="h-4 w-4" />
               <span className="font-display text-2xl font-extrabold text-slate-950 dark:text-white tabular-nums">
-                17
+                {PROJECTS.length}
               </span>
             </div>
             <p className="mt-1 text-xs font-medium text-slate-600 dark:text-slate-400">

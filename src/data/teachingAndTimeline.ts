@@ -60,25 +60,25 @@ export const TEACHING_PILLARS: TeachingPillar[] = [
   },
   {
     id: 'pillar-recursos',
-    title: 'Recursos educativos digitales y laboratorios en vivo',
+    title: 'Recursos educativos digitales y plantillas base',
     category: 'Recursos digitales',
     description:
-      'Creación de tutoriales interactivos en navegador que permiten inspeccionar la anatomía de formularios y plantillas HTML5/CSS3.',
-    appliedIn: 'Constructor de Formularios y Plantillas',
-    projectId: 'aura-formularios',
+      'Creación de plantillas HTML5/CSS3 interactivas y bibliotecas visuales para Moodle (avisos, tarjetas de actividad y guías) listas para reutilizar en clase.',
+    appliedIn: 'Construye una plantilla · Moodle Design Library',
+    projectId: 'construye-plantilla',
     demoUrl: 'https://aura.creamiproyecto.com/template.html',
-    statusNote: 'Publicado y accesible en línea con zona de alumnos.',
+    statusNote: 'Publicado en línea con mapa interactivo de zonas semánticas y bloques listos para aulas virtuales.',
   },
   {
     id: 'pillar-practicas',
     title: 'Actividades prácticas y verificación de aprendizaje',
     category: 'Práctica y evaluación',
     description:
-      'Retos guiados de comprobación de etiquetas, campos obligatorios y validación básica orientados a evaluación formativa.',
-    appliedIn: 'Constructor de Formularios y Plantillas · Constructor de Plantillas HTML5',
+      'Retos guiados de comprobación de etiquetas, formularios accesibles y validación básica orientados a evaluación formativa.',
+    appliedIn: 'Constructor de Formularios y Plantillas · Moodle Design Library',
     projectId: 'aura-formularios',
-    demoUrl: 'https://aura.creamiproyecto.com/template.html',
-    statusNote: 'Integrado en entornos prácticos con comprobación inmediata.',
+    demoUrl: 'https://aura.creamiproyecto.com/',
+    statusNote: 'Integrado en entornos prácticos con zona de alumnos y comprobación inmediata.',
   },
   {
     id: 'pillar-programaciones',
@@ -118,11 +118,11 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     description:
       'Ampliación hacia aplicaciones multiusuario con Prisma/MariaDB, e-commerce con PostgreSQL y Stripe, Laravel/Filament, Angular 20 y utilidades de productividad PWA.',
     highlights: [
+      'React Email Studio (PWA) e InnovaPyme Canarias (Neon)',
       'Tienda Online de Libros (Next.js 16 + PostgreSQL + Stripe) y Control de Gastos (Prisma + MariaDB)',
       'Representante Deportivo (Laravel + Filament + Livewire) y Agrimensor (Figma -> React 18)',
-      'React Email Studio (PWA) e InnovaPyme Canarias (Neon)',
     ],
-    relatedProjectIds: ['libroshop', 'control-gastos', 'agencia-pro', 'react-email-studio', 'innovapyme-canarias'],
+    relatedProjectIds: ['react-email-studio', 'libroshop', 'control-gastos', 'agencia-pro', 'innovapyme-canarias'],
   },
   {
     id: 'tl-docencia-2026',
@@ -134,10 +134,11 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
       'Diseño y publicación de aplicaciones orientadas específicamente al aprendizaje de desarrollo web y al análisis de la oferta de formación profesional.',
     highlights: [
       'Constructor de Plantillas HTML5 con vista previa y chatbot tutor IA',
-      'Constructor de Formularios y Plantillas: laboratorio práctico de HTML5 y CSS3 para alumnado',
+      'Constructor de Formularios y Construye una plantilla: laboratorios y base multipágina HTML5/CSS3 para alumnado',
+      'Moodle Design Library: biblioteca visual de bloques y avisos HTML exportables para Moodle',
       'Catálogo de Especialidades Formativas SEPE con exportación Excel',
     ],
-    relatedProjectIds: ['htmlab', 'aura-formularios', 'catalogo-sepe'],
+    relatedProjectIds: ['htmlab', 'aura-formularios', 'construye-plantilla', 'moodle-design', 'catalogo-sepe'],
   },
   {
     id: 'tl-formacion-pendiente',

@@ -246,7 +246,7 @@ export function ProjectsSection({
           })}
         </div>
 
-        {/* Full 17-Project Interactive Catalog */}
+        {/* Full Project Interactive Catalog */}
         <div className="mt-20 pt-14 border-t border-slate-200 dark:border-slate-800">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>

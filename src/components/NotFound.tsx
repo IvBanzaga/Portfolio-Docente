@@ -1,4 +1,5 @@
 import { ArrowLeft, Compass } from 'lucide-react';
+import { PROJECTS } from '../data/projects';
 
 interface NotFoundProps {
   pathname: string;
@@ -20,8 +21,8 @@ export function NotFound({ pathname, onGoHome }: NotFoundProps) {
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
           La ruta <code className="font-mono text-slate-900 dark:text-white">{pathname}</code> no
-          existe en este portafolio. Puedes volver al inicio para explorar los 17 proyectos, el
-          espacio docente o el laboratorio interactivo.
+          existe en este portafolio. Puedes volver al inicio para explorar los {PROJECTS.length}{' '}
+          proyectos, el espacio docente o el laboratorio interactivo.
         </p>
         <button
           type="button"

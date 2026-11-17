@@ -10,22 +10,22 @@ export const SKILL_GROUPS: SkillGroup[] = [
       {
         name: 'React & Next.js',
         context: 'SPAs, e-commerce, paneles multiusuario y consumo de APIs',
-        projectIds: ['libroshop', 'control-gastos', 'agrimensor-landing', 'astrotenerife-apod', 'react-email-studio'],
+        projectIds: ['libroshop', 'control-gastos', 'agrimensor-landing', 'astrotenerife-apod', 'react-email-studio', 'moodle-design'],
       },
       {
         name: 'TypeScript & JavaScript',
         context: 'Tipado estricto en modelos de datos y lógica cliente',
-        projectIds: ['libroshop', 'control-gastos', 'urban-manager', 'react-email-studio'],
+        projectIds: ['libroshop', 'control-gastos', 'urban-manager', 'react-email-studio', 'moodle-design'],
       },
       {
         name: 'HTML5 Semántico & CSS3',
         context: 'Maquetación accesible, formularios y laboratorios docentes',
-        projectIds: ['htmlab', 'aura-formularios', 'reservas-refugio', 'comunidad-vecinos'],
+        projectIds: ['htmlab', 'aura-formularios', 'construye-plantilla', 'moodle-design', 'reservas-refugio', 'comunidad-vecinos'],
       },
       {
         name: 'Tailwind CSS & Bootstrap',
         context: 'Sistemas visuales ágiles y diseño adaptable',
-        projectIds: ['urban-manager', 'agrimensor-landing', 'theme-astro', 'control-gastos', 'angular-springboot'],
+        projectIds: ['urban-manager', 'agrimensor-landing', 'theme-astro', 'control-gastos', 'angular-springboot', 'moodle-design'],
       },
       {
         name: 'Astro 5 & Angular 20',
@@ -112,7 +112,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
       {
         name: 'APIs REST & PWA / Service Worker',
         context: 'Consumo de APIs públicas (NASA APOD) y capacidades offline',
-        projectIds: ['astrotenerife-apod', 'react-email-studio'],
+        projectIds: ['astrotenerife-apod', 'react-email-studio', 'moodle-design'],
       },
     ],
   },
@@ -147,8 +147,8 @@ export const SKILL_GROUPS: SkillGroup[] = [
     items: [
       {
         name: 'Diseño de recursos y laboratorios web',
-        context: 'Entornos interactivos donde el alumnado construye y valida código en vivo',
-        projectIds: ['htmlab', 'aura-formularios'],
+        context: 'Entornos interactivos, plantillas HTML5 y bibliotecas para Moodle donde crear y validar recursos en vivo',
+        projectIds: ['htmlab', 'aura-formularios', 'construye-plantilla', 'moodle-design'],
       },
       {
         name: 'Competencias digitales y consulta formativa',
