@@ -82,7 +82,7 @@ export function Hero({
               {/* Circular High-Clarity Avatar + Kicker Metadata */}
               <div className="flex flex-wrap items-center gap-5">
                 <div className="relative h-24 w-24 sm:h-28 sm:w-28 shrink-0 rounded-full bg-gradient-to-tr from-blue-600 via-teal-500 to-orange-500 p-[3px] shadow-md">
-                  <div className="h-full w-full overflow-hidden rounded-full bg-white dark:bg-slate-900 ring-2 ring-white dark:ring-slate-950">
+                  <div className="h-full w-full overflow-hidden rounded-full bg-[#0073E8] ring-2 ring-white dark:ring-slate-950">
                     {PROFILE.avatarUrl && !avatarError ? (
                       <img
                         src={PROFILE.avatarUrl}
@@ -90,8 +90,7 @@ export function Hero({
                         referrerPolicy="no-referrer"
                         decoding="sync"
                         onError={() => setAvatarError(true)}
-                        className="h-full w-full rounded-full object-cover object-[50%_15%]"
-                        style={{ transform: 'translateZ(0)' }}
+                        className="h-full w-full translate-y-[9%] transform-gpu object-cover object-top [clip-path:inset(1.5%_1.5%_0_1.5%)]"
                       />
                     ) : (
                       <div

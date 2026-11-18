@@ -14,7 +14,7 @@ export const PROFILE = {
     'Mantengo una actitud de aprendizaje continuo, experimentando con nuevas herramientas, desarrollando proyectos propios y buscando oportunidades para aplicar la tecnología de manera útil y práctica.',
   ],
   /** Ruta al avatar profesional de Iván Bazaga */
-  avatarUrl: '/assets/aistudio/foto_872901f8.jpg',
+  avatarUrl: '/assets/aistudio/image_7af28f28.png',
   /** Sustituir por ruta real ej. '/cv-ivan-bazaga.pdf' cuando se aporte PDF oficial */
   cvPdfUrl: '',
   email: 'info@creamiproyecto.com',
