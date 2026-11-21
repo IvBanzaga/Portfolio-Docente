@@ -6,7 +6,7 @@ export const PROJECTS: Project[] = [
     title: 'React Email Studio',
     subtitle: 'Editor visual de correos con sincronización TSX/HTML y modo PWA',
     category: 'Herramientas profesionales y productividad',
-    domain: 'web',
+    domain: 'dual',
     status: 'Publicado',
     featured: true,
     visualKind: 'email-studio',

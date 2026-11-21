@@ -69,9 +69,13 @@ export function TeachingSection({
   const edProjects = projects
     .filter((p) => p.domain === 'docencia' || p.domain === 'dual')
     .sort((a, b) => {
-      if (a.id === 'htmlab') return -1;
-      if (b.id === 'htmlab') return 1;
-      return 0;
+      const priority = (id: string) => {
+        if (id === 'react-email-studio') return 0;
+        if (id === 'moodle-design') return 1;
+        if (id === 'htmlab') return 2;
+        return 3;
+      };
+      return priority(a.id) - priority(b.id);
     });
 
   const visiblePillars =
